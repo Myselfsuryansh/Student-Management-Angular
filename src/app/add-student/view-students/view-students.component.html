@@ -1,0 +1,71 @@
+<div class="card">
+    <div class="card-header bg-info text-center"><h6>Employee Details</h6></div>
+    <div class="col-2 ml-3 mt-2">
+      <button class="btn btn-primary btn-sm" (click)="goBack()">
+          <i class="fas fa-arrow-left"></i> Back
+        </button>
+     </div>
+    <div class="card-body" *ngIf="item">
+      <form>
+        <div class="row mt-2">
+          <div class="form-group col">
+            <label>Department</label>
+            <p class="form-control">{{ item.department }}</p>
+          </div>
+  
+          <div class="form-group col">
+            <label>Employee Name</label>
+            <p class="form-control">{{ item.empName }}</p>
+          </div>
+  
+          <div class="form-group col">
+            <label>Mobile</label>
+            <p class="form-control">{{ item.mobile }}</p>
+          </div>
+        </div>
+  
+        <div class="row mt-2">
+          <div class="form-group col">
+            <label>Gender</label>
+            <p class="form-control">{{ item.gender }}</p>
+          </div>
+  
+          <div class="form-group col">
+            <label>Date of Join</label>
+            <p class="form-control">{{ item.joinDate }}</p>
+          </div>
+  
+          <div class="form-group col">
+            <label>Email</label>
+            <p class="form-control">{{ item.email }}</p>
+          </div>
+        </div>
+  
+        <div class="row mt-2">
+          <div class="form-group col">
+            <label>Salary</label>
+            <p class="form-control">{{ item.salary }}</p>
+          </div>
+  
+          <div class="form-group col">
+            <label>Password</label>
+            <p class="form-control">{{ item.password }}</p>
+          </div>
+  
+          <div class="form-group col">
+            <label>Confirm Password</label>
+            <input type="password" class="form-control" required />
+          </div>
+        </div>
+  
+        <div class="row mt-2">
+          <div class="col-12">
+            <div class="form-group col form-check">
+              <label type="checkbox">Active Or Not</label>
+              <p class="checkbox">{{ item.empStatus }}</p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>

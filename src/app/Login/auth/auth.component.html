@@ -1,0 +1,72 @@
+<div class="container-fluid">
+  <div class="main">
+    <input type="checkbox" id="chk" aria-hidden="true" />
+
+    <div class="signup">
+      <form [formGroup]="SignUpForm" (ngSubmit)="onSubmit()">
+        <label for="chk" aria-hidden="true">Sign up</label>
+
+        <div class="form-group col">
+          <input
+            type="email"
+            formControlName="email"
+            class="form-control"
+            name="email"
+            placeholder="Enter Email Address"
+            required=""
+            [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+          />
+          <span *ngIf="submitted && f.email.errors" class="invalid-feedback">
+          </span>
+        </div>
+        <div class="form-group col">
+          <input
+            type="text"
+            formControlName="pswd"
+            class="form-control"
+            name="pswd"
+            placeholder="Enter Password"
+            required=""
+            [ngClass]="{ 'is-invalid': submitted && f.pswd.errors }"
+          />
+          <span *ngIf="submitted && f.pswd.errors" class="invalid-feedback">
+          </span>
+        </div>
+        <button>Sign up</button>
+      </form>
+    </div>
+
+    <div class="login">
+      <form [formGroup]="LoginForm" (ngSubmit)="onLogin()">
+        <label for="chk" aria-hidden="true">Login</label>
+        <div class="form-group col">
+          <input
+            type="text"
+            formControlName="EmailAddress"
+            class="form-control"
+            name="EmailAddress"
+            placeholder="Enter Login Email Address"
+            required=""
+            [ngClass]="{ 'is-invalid': submitted && g.EmailAddress.errors }"
+          />
+          <span *ngIf="submitted && g.EmailAddress.errors" class="invalid-feedback">
+          </span>
+        </div>
+        <div class="form-group col">
+          <input
+            type="text"
+            formControlName="Password"
+            class="form-control"
+            name="Password"
+            placeholder="Enter Password"
+            required=""
+            [ngClass]="{ 'is-invalid': submitted && g.Password.errors }"
+          />
+          <span *ngIf="submitted && g.Password.errors" class="invalid-feedback">
+          </span>
+        </div>
+        <button>Login</button>
+      </form>
+    </div>
+  </div>
+</div>

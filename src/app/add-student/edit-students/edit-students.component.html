@@ -1,0 +1,210 @@
+<div class="card">
+    <div class="card-header bg-info text-center"><h6>Edit Employee Form</h6></div>
+   <div class="col-2 ml-3 mt-2">
+    <button class="btn btn-primary btn-sm" (click)="goBack()">
+        <i class="fas fa-arrow-left"></i> Back
+      </button>
+   </div>
+    <div class="card-body">
+      <form [formGroup]="employeeForm" (ngSubmit)="onUpdate()">
+        <div class="row mt-2">
+          <div class="form-group col">
+            <label>Department</label>
+            <select
+              class="form-control"
+              formControlName="department"
+              name="department"
+              id="department"
+              [ngClass]="{ 'is-invalid': submitted && f.department.errors }" 
+              required
+            >
+              <option value="">--Select--</option>
+              <option value="Accounts">Accounts</option>
+              <option value="Manager">Manager</option>
+              <option value="Administrator">Administrator</option>
+            </select>
+            <span *ngIf="submitted && f.department.errors" class="invalid-feedback">
+              <span *ngIf="f.department.errors?.required"
+                >Department is Required</span
+              >
+            </span>
+          </div>
+  
+          <div class="form-group col">
+            <label>Employee Name</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="empName"
+              name="empName"
+              id="empName"
+              [ngClass]="{ 'is-invalid': submitted && f.empName.errors }" 
+              required
+            />
+            <span *ngIf="submitted && f.empName.errors" class="invalid-feedback">
+              <span *ngIf="f.empName.errors?.required"
+                >Employee Name is Required</span
+              >
+            </span>
+          </div>
+  
+          <div class="form-group col">
+            <label>Mobile</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="mobile"
+              (keypress)="keyPressNumbers($event)"
+              name="mobile"
+              maxlength="10"
+              minlength="10"
+              
+              [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" 
+              required
+            />
+            <span *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
+              <span *ngIf="f.mobile.errors?.required">Mobile  is Required</span>
+            </span>
+          </div>
+          
+        </div>
+  
+        <div class="row mt-2">
+          <div class="form-group col">
+            <label>Gender</label>
+            <select
+              class="form-control"
+              formControlName="gender"
+              name="gender"
+              id="gender"
+              [ngClass]="{ 'is-invalid': submitted && f.gender.errors }" 
+              required
+            >
+              <option value="">--Select--</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+            <span *ngIf="submitted && f.gender.errors" class="invalid-feedback">
+              <span *ngIf="f.gender.errors?.required">Gender is Required</span>
+            </span>
+          </div>
+  
+          <div class="form-group col">
+            <label>Date of Join</label>
+            <input
+              type="date"
+              class="form-control"
+              formControlName="joinDate"
+              name="joinDate"
+              id="joinDate"
+              [ngClass]="{ 'is-invalid': submitted && f.joinDate.errors }" 
+              required
+            />
+            <span *ngIf="submitted && f.joinDate.errors" class="invalid-feedback">
+              <span *ngIf="f.joinDate.errors?.required"
+                >Joining Date is Required</span
+              >
+            </span>
+          </div>
+  
+          <div class="form-group col">
+            <label>Email</label>
+            <input
+              type="email"
+              class="form-control"
+              formControlName="email"
+              name="email"
+              id="email"
+              [ngClass]="{ 'is-invalid': submitted && f.email.errors }" 
+              required
+  
+            />
+            <span *ngIf="submitted && f.email.errors" class="invalid-feedback">
+              <span *ngIf="f.email.errors?.required">Email is Required</span>
+              <span *ngIf="f.email.errors?.email">Email must be valid email address</span>
+            </span>
+          </div>
+        </div>
+  
+        <div class="row mt-2">
+          <div class="form-group col">
+            <label>Salary</label>
+            <input
+              type="text"
+              class="form-control"
+              (keypress)="keyPressNumbers($event)"
+              formControlName="salary"
+              name="salary"
+              maxlength="10"
+              id="salary"
+              [ngClass]="{ 'is-invalid': submitted && f.salary.errors }" 
+              required
+            />
+            <span *ngIf="submitted && f.salary.errors" class="invalid-feedback">
+              <span *ngIf="f.salary.errors?.required">Salary is Required</span>
+            </span>
+          </div>
+  
+          <div class="form-group col">
+            <label>Password</label>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="password"
+              name="password"
+              id="password"
+              [ngClass]="{ 'is-invalid': submitted && f.password.errors }" 
+              required
+            />
+            <span *ngIf="submitted && f.password.errors" class="invalid-feedback">
+              <span *ngIf="f.password.errors?.required"
+                >Password is Required</span
+              >
+            </span>
+          </div>
+  
+          <div class="form-group col">
+            <label>Confirm Password</label>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="confirmPass"
+              [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors }" 
+              required
+            />
+            <span *ngIf="submitted && f.confirmPass.errors" class="invalid-feedback">
+              <span *ngIf="f.confirmPass.errors?.required"
+                >Confirm Password is Required</span
+              >
+              <span *ngIf="f.confirmPass.errors?.confirmedValidator"
+                >Password and Confirm Password must be match</span
+              >
+            </span>
+          </div>
+        </div>
+  
+        <div class="row mt-2">
+          <div class="col-12">
+            <div class="form-group col form-check">
+              <label>Active</label>
+              <input
+                type="checkbox"
+                class="form-check-input"
+                formControlName="empStatus"
+                id="empStatus"
+                name="empStatus"
+                required
+              />
+            </div>
+          </div>
+        </div>
+  
+        <div class="row mt-2">
+          <div class="form-group text-center">
+            <button type="submit" class="btn btn-success me-2">Update</button>
+            
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>

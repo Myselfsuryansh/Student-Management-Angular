@@ -1,0 +1,24 @@
+{
+  "student": [
+    {
+      "id": "2686",
+      "department": "Accounts",
+      "empName": "Suryansh",
+      "mobile": "7992389626",
+      "gender": "Male",
+      "joinDate": "2024-01-19",
+      "email": "satyam@gmail.c",
+      "salary": "4500000",
+      "password": "Bibhasinha@123",
+      "confirmPass": "Bibhasinha@123",
+      "empStatus": true
+    }
+  ],
+  "users": [
+    {
+      "id": "79e7",
+      "email": "one@gmail.com",
+      "pswd": "12345"
+    }
+  ]
+}
