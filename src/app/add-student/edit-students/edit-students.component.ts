@@ -10,22 +10,24 @@ import { DataService } from 'src/app/Service/data.service';
   styleUrls: ['./edit-students.component.css']
 })
 export class EditStudentsComponent implements OnInit {
-  itemId:any;
-  item:any;
+  itemId: any;
+  item: any;
   employeeForm!: FormGroup;
-  submitted=false;
+  submitted = false;
 
-  constructor(private service:DataService, private activatedRouter:ActivatedRoute, private fb:FormBuilder,private router:Router,private toastr:ToastrService){
+  constructor(private service: DataService, private activatedRouter: ActivatedRoute, private fb: FormBuilder, private router: Router, private toastr: ToastrService) {
 
   }
   ngOnInit(): void {
-    this.activatedRouter.paramMap.subscribe((params:any) => {
-      this.itemId = params.get('id'); // Convert the ID to a number (if it's not a string)
+    this.activatedRouter.paramMap.subscribe((params: any) => {
+      this.itemId = params.get('id');
+      console.log(this.itemId);
       this.getDataForEdit(this.itemId);
 
-      this.service.getDataForSpecificID(this.itemId).subscribe((item:any)=>{
-        this.item=item;
-        
+      this.service.getDataForSpecificID(this.itemId).subscribe((item: any) => {
+        this.item = item;
+        console.log(item.studentId)
+
       })
     });
 
@@ -41,24 +43,24 @@ export class EditStudentsComponent implements OnInit {
       confirmPass: ['', Validators.required],
       empStatus: ['', Validators.requiredTrue]
     });
-    
+
   };
   get f() {
     return this.employeeForm.controls;
   }
-  
 
-  onUpdate(){
-    if(this.employeeForm.value.empStatus==''){
+
+  onUpdate() {
+    if (this.employeeForm.value.empStatus == '') {
       this.toastr.error('CheckBox is not Checked')
     }
-    this.submitted=true;
+    this.submitted = true;
 
-    if(this.employeeForm.invalid){
+    if (this.employeeForm.invalid) {
       return;
     }
-    if(this.employeeForm.valid){
-      this.service.updateData(this.itemId,this.employeeForm.value).subscribe((res:any)=>{
+    if (this.employeeForm.valid) {
+      this.service.updateData(this.itemId, this.employeeForm.value).subscribe((res: any) => {
         alert('Data updated success');
         this.router.navigate(['/add'])
 
@@ -66,12 +68,30 @@ export class EditStudentsComponent implements OnInit {
     }
 
   }
-  getDataForEdit(id: number): void {
-    this.service.getDataForSpecificID(id).subscribe((data) => {
-      this.employeeForm.patchValue(data);
+  getDataForEdit(_id: number): void {
+    this.service.getDataForSpecificID(_id).subscribe((response: any) => {
+      if (response.success && response.studentId) {
+        const studentData = response.studentId;
+        this.employeeForm.patchValue({
+          department: studentData.department,
+          empName: studentData.empName,
+          mobile: studentData.mobile,
+          gender: studentData.gender,
+          joinDate: studentData.joinDate,
+          email: studentData.email,
+          salary: studentData.salary,
+          password: studentData.password,
+          confirmPass: studentData.confirmPass,
+          empStatus: studentData.empStatus
+        });
+      } else {
+        
+      }
     });
   }
-  keyPressNumbers(event:any) {
+  
+
+  keyPressNumbers(event: any) {
     var charCode = (event.which) ? event.which : event.keyCode;
     // Only Numbers 0-9
     if ((charCode < 48 || charCode > 57)) {

@@ -12,11 +12,152 @@
       "password": "Bibhasinha@123",
       "confirmPass": "Bibhasinha@123",
       "empStatus": true
+    },
+    {
+      "id": "f390",
+      "department": "Accounts",
+      "empName": "dfdf",
+      "mobile": "3454545445",
+      "gender": "Male",
+      "joinDate": "2024-02-09",
+      "email": "satyan5487@gmail.com",
+      "salary": "34554",
+      "password": "1234567890",
+      "confirmPass": "1234567890",
+      "empStatus": true
+    },
+    {
+      "id": "460e",
+      "department": "Accounts",
+      "empName": "dfdf",
+      "mobile": "3454545445",
+      "gender": "Male",
+      "joinDate": "2024-02-09",
+      "email": "satyan5487@gmail.com",
+      "salary": "34554",
+      "password": "1234567890",
+      "confirmPass": "1234567890",
+      "empStatus": true
+    },
+    {
+      "id": "5a5d",
+      "department": "Accounts",
+      "empName": "dfdf",
+      "mobile": "3454545445",
+      "gender": "Male",
+      "joinDate": "2024-02-09",
+      "email": "satyan5487@gmail.com",
+      "salary": "34554",
+      "password": "1234567890",
+      "confirmPass": "1234567890",
+      "empStatus": true
+    },
+    {
+      "id": "2fa6",
+      "department": "Accounts",
+      "empName": "dfdf",
+      "mobile": "3454545445",
+      "gender": "Male",
+      "joinDate": "2024-02-09",
+      "email": "satyan5487@gmail.com",
+      "salary": "34554",
+      "password": "1234567890",
+      "confirmPass": "1234567890",
+      "empStatus": true
+    },
+    {
+      "id": "74e5",
+      "department": "Accounts",
+      "empName": "dfdf",
+      "mobile": "3454545445",
+      "gender": "Male",
+      "joinDate": "2024-02-09",
+      "email": "satyan5487@gmail.com",
+      "salary": "34554",
+      "password": "1234567890",
+      "confirmPass": "1234567890",
+      "empStatus": true
+    },
+    {
+      "id": "e991",
+      "department": "Accounts",
+      "empName": "dfdf",
+      "mobile": "3454545445",
+      "gender": "Male",
+      "joinDate": "2024-02-09",
+      "email": "satyan5487@gmail.com",
+      "salary": "34554",
+      "password": "1234567890",
+      "confirmPass": "1234567890",
+      "empStatus": true
+    },
+    {
+      "id": "82d1",
+      "department": "Accounts",
+      "empName": "dfdf",
+      "mobile": "3454545445",
+      "gender": "Male",
+      "joinDate": "2024-02-09",
+      "email": "satyan5487@gmail.com",
+      "salary": "34554",
+      "password": "1234567890",
+      "confirmPass": "1234567890",
+      "empStatus": true
+    },
+    {
+      "id": "4e10",
+      "department": "Accounts",
+      "empName": "dfdf",
+      "mobile": "3454545445",
+      "gender": "Male",
+      "joinDate": "2024-02-09",
+      "email": "satyan5487@gmail.com",
+      "salary": "34554",
+      "password": "1234567890",
+      "confirmPass": "1234567890",
+      "empStatus": true
+    },
+    {
+      "id": "6361",
+      "department": "Accounts",
+      "empName": "dfdf",
+      "mobile": "3454545445",
+      "gender": "Male",
+      "joinDate": "2024-02-09",
+      "email": "satyan5487@gmail.com",
+      "salary": "34554",
+      "password": "1234567890",
+      "confirmPass": "1234567890",
+      "empStatus": true
+    },
+    {
+      "id": "bba9",
+      "department": "Accounts",
+      "empName": "dfdf",
+      "mobile": "3454545445",
+      "gender": "Male",
+      "joinDate": "2024-02-09",
+      "email": "satyan5487@gmail.com",
+      "salary": "34554",
+      "password": "1234567890",
+      "confirmPass": "1234567890",
+      "empStatus": true
     }
   ],
   "users": [
     {
       "id": "79e7",
+      "email": "one@gmail.com",
+      "pswd": "12345"
+    },
+    {
+      "id": "810f",
+      "email": "Satyam5487@gmail.com",
+      "pswd": "Bibhasinha@1234",
+      "password": "Bibhasinha@1234"
+    },
+    {
+      "id": "55e4",
       "email": "one@gmail.com",
       "pswd": "12345"
     }

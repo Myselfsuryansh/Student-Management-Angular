@@ -8,27 +8,36 @@ import { DataService } from 'src/app/Service/data.service';
   styleUrls: ['./view-students.component.css']
 })
 export class ViewStudentsComponent implements OnInit {
-  itemId:any;
-  item:any
- 
-  constructor(private service:DataService,private activatedRouter:ActivatedRoute, private router:Router){}
+  itemId: any;
+  item: any
+
+  constructor(private service: DataService, private activatedRouter: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.activatedRouter.paramMap.subscribe((params) => {
       this.itemId = params.get('id'); // Convert the ID to a number (if it's not a string)
       console.log(this.itemId);
 
-      this.service.getDataForSpecificID(this.itemId).subscribe((item:any)=>{
-        this.item=item;
-        
-      })
+      // this.service.getDataForSpecificID(this.itemId).subscribe((item: any) => {
+      //   this.item = item;
+
+      // })
+
+      this.service.getDataForSpecificID(this.itemId).subscribe((response: any) => {
+        if (response.success && response.studentId) {
+          const studentData = response.studentId;
+          this.item = studentData
+        } else {
+
+        }
+      });
     });
-    
-    
-    
-    
+
+
+
+
   }
-  goBack(){
+  goBack() {
     this.router.navigate(['/add-student'])
   }
 }
