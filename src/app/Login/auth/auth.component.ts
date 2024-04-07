@@ -83,46 +83,22 @@ export class AuthComponent implements OnInit {
         localStorage.setItem('userData', JSON.stringify(res.user));
         this.service.login();
         this.scheduleTokenRefresh();
-        // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YzVhYmIyNjFhYzk4NmNmMGM1MWE2ZSIsImlhdCI6MTcwNzQ1NjA5NSwiZXhwIjoxNzA4MDYwODk1fQ.9Ogq1JPqogggduHwp0zL3lZnkz5m1xKvkKtEzPbnNNo';
-        // this.service.setToken(token)
         this.submitted = false;
         this.SignUpForm.reset();
 
       }
+      else if (!res){
+        this.toastr.success('Invalid password');
+      }
       else {
-        this.toastr.error(res.error, 'error')
+        this.toastr.error('Invalid password')
         this.handleExpiredToken();
       }
     })
-    // const email = this.LoginForm.value.EmailAddress;
-    // const pswd = this.LoginForm.value.Password;
-    // console.log('Email:', email, 'Password:', pswd);
-    // this.service.getUserByEmailAndPassword(email, pswd).subscribe(
-    //   user => {
-    //     console.log('API Response:', user);
-
-    //     if (user) {
-    //       console.log('Login successful:', user);
-    //       this.toastr.success('Login Successful');
-    //       this.router.navigate(['/add-student']);
-    //       const tokenPayload = { email: email, password: pswd };
-    //       const token = btoa(JSON.stringify(tokenPayload));
-    //       localStorage.setItem('token', token);
-    //       this.service.login();
-    //     } else {
-    //       console.log('Invalid credentials');
-    //       this.toastr.error('Invalid Credentials');
-    //     }
-    //   },
-    //   error => {
-    //     console.error('API Error:', error);
-    //     this.toastr.error('Error occurred while logging in');
-    //   }
-    // );
   }
 
   handleExpiredToken(): void {
-    // Clear token and user data from local storage
+    
     localStorage.removeItem('token');
     localStorage.removeItem('userData');
 

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DataService } from 'src/app/Service/data.service';
 import { DialogService } from 'primeng/dynamicdialog';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-change-password',
@@ -13,7 +14,7 @@ export class ChangePasswordComponent {
   @Output() passwordChanged = new EventEmitter<boolean>();
   public id: any;
 
-  constructor(private service: DataService,private dialogService: DialogService) {
+  constructor(private service: DataService,private dialogService: DialogService,private toastr: ToastrService) {
     const userDataString = localStorage.getItem('userData');
     if (userDataString) {
       const userData = JSON.parse(userDataString);
@@ -30,13 +31,12 @@ export class ChangePasswordComponent {
 
     this.service.changePassword(this.id, oldPassword, newPassword).subscribe(
       (res) => {
-        debugger
-        console.log('Password changed successfully');
+       this.toastr.success('Password changed successfully')
         this.passwordChanged.emit(true);
         
       },
       (error) => {
-        console.log(error);
+        this.toastr.error('Error')
         this.passwordChanged.emit(false);
       }
     );
