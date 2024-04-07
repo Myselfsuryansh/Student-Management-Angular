@@ -79,7 +79,10 @@ export class AuthComponent implements OnInit {
       if (res) {
         this.toastr.success('Login  Successfully');
         this.router.navigate(['add-student']);
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('userData', JSON.stringify(res.user));
         this.service.login();
+        this.scheduleTokenRefresh();
         // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YzVhYmIyNjFhYzk4NmNmMGM1MWE2ZSIsImlhdCI6MTcwNzQ1NjA5NSwiZXhwIjoxNzA4MDYwODk1fQ.9Ogq1JPqogggduHwp0zL3lZnkz5m1xKvkKtEzPbnNNo';
         // this.service.setToken(token)
         this.submitted = false;
@@ -88,6 +91,7 @@ export class AuthComponent implements OnInit {
       }
       else {
         this.toastr.error(res.error, 'error')
+        this.handleExpiredToken();
       }
     })
     // const email = this.LoginForm.value.EmailAddress;
@@ -115,6 +119,42 @@ export class AuthComponent implements OnInit {
     //     this.toastr.error('Error occurred while logging in');
     //   }
     // );
+  }
+
+  handleExpiredToken(): void {
+    // Clear token and user data from local storage
+    localStorage.removeItem('token');
+    localStorage.removeItem('userData');
+
+    // Redirect user to login page or display a message
+    this.router.navigate(['/login']);
+    this.toastr.error('Session expired. Please log in again.', 'Error');
+  }
+
+  // Method to schedule token refresh
+  scheduleTokenRefresh(): void {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return;
+    }
+    const jwtToken = JSON.parse(atob(token.split('.')[1])); // Decode JWT token
+
+    // Calculate time remaining until token expiration
+    const expiresAt = new Date(jwtToken.exp * 1000);
+    const expiresInMs = expiresAt.getTime() - Date.now();
+
+    // Schedule token refresh 1 minute before expiration (adjust as needed)
+    const refreshDelayMs = expiresInMs - (1 * 60 * 1000); // 1 minute before expiration
+    setTimeout(() => {
+      this.refreshToken();
+    }, refreshDelayMs);
+  }
+
+  // Method to refresh token
+  refreshToken(): void {
+    // Implement token refresh logic here (e.g., call a backend endpoint to refresh token)
+    // Update localStorage with the new token if successfully refreshed
+    // Handle token refresh failure gracefully
   }
 
 }

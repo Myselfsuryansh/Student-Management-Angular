@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataService } from '../Service/data.service';
@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { MatSidenav } from '@angular/material/sidenav';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ProfileComponent } from './profile/profile.component';
 
 function emailValidator(control: AbstractControl): { [key: string]: any } | null {
   const email: string = control.value;
@@ -25,6 +26,7 @@ function emailValidator(control: AbstractControl): { [key: string]: any } | null
   styleUrls: ['./add-student.component.css']
 })
 export class AddStudentComponent implements OnInit {
+  @ViewChild('profilePopup', { static: true }) profilePopup!: TemplateRef<any>;
   nameSearch: string = '';
   selectSearch: string = '';
   employeeForm!: FormGroup;
@@ -251,8 +253,6 @@ export class AddStudentComponent implements OnInit {
     this.Authservice.logout();
     this.router.navigate(['/'])
   }
-
-  @ViewChild('sidenav') sidenav!: MatSidenav;
   newPassword!: string;
   // changePassword(): void {
   //   const email = 'Satyam5487@gmail.com'; // Replace with the actual email
@@ -267,19 +267,37 @@ export class AddStudentComponent implements OnInit {
   //     console.error('Error getting user ID:', error);
   //   });
   // }
-  openSideNav(): void {
-    this.sidenav.toggle();
-  }
+ 
 
-  openChangePasswordModal(): void {
+  public openChangePasswordModal(): void {
+    
     const ref = this.dialogService.open(ChangePasswordComponent, {
       header: 'Change Password',
       width: '70%'
     });
 
-    ref.onClose.subscribe((result: any) => {
-      console.log('Dialog closed');
+    ref.onClose.subscribe((passwordChanged: boolean) => {
+      
+      if (passwordChanged) {
+        console.log('Password changed successfully');
+        ref.close(); 
+      } else {
+        console.log('Password change failed');
+      }
     });
   }
 
+  openProfileModal() {
+    const ref = this.dialogService.open(ProfileComponent, {
+      header: 'Your Profile',
+      width: '70%'
+    });
+
+    ref.onClose.subscribe((passwordChanged: boolean) => {
+      
+     
+        ref.close(); 
+      
+    });
+  }
 }

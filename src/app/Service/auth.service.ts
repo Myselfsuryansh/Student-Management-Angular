@@ -55,6 +55,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('token');
+    localStorage.removeItem('userData')
   }
 
   isAuthenticated(): boolean {
