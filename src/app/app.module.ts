@@ -26,6 +26,7 @@ import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ChangePasswordComponent } from './add-student/change-password/change-password.component';
 import { SignupComponent } from './Login/auth/signup/signup.component';
 import { ProfileComponent } from './add-student/profile/profile.component';
+import { ResetPasswordComponent } from './Login/auth/reset-password/reset-password.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +38,7 @@ import { ProfileComponent } from './add-student/profile/profile.component';
     ChangePasswordComponent,
     SignupComponent,
     ProfileComponent,
+    ResetPasswordComponent,
  
   ],
   imports: [

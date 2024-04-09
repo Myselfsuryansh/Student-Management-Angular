@@ -133,4 +133,8 @@ export class AuthComponent implements OnInit {
     // Handle token refresh failure gracefully
   }
 
+  public onForgotPassword(): void {
+    this.router.navigate(['/resetPassword'])
+  }
+
 }

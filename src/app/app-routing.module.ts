@@ -5,9 +5,11 @@ import { EditStudentsComponent } from './add-student/edit-students/edit-students
 import { ViewStudentsComponent } from './add-student/view-students/view-students.component';
 import { AuthComponent } from './Login/auth/auth.component';
 import { AuthGuard } from './Service/auth.guard';
+import { ResetPasswordComponent } from './Login/auth/reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: '', component: AuthComponent },
+  {path:'resetPassword',component:ResetPasswordComponent},
   { path: 'add-student', component: AddStudentComponent, canActivate: [AuthGuard] },
   { path: 'edit/:id', component: EditStudentsComponent },
   { path: 'view/:id', component: ViewStudentsComponent },

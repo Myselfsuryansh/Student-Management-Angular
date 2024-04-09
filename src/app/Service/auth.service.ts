@@ -21,16 +21,7 @@ export class AuthService {
     );
   }
 
-  // LoginIn(user: any):Observable<any>{
-  //   const token = localStorage.getItem('token');
-
-  //   if (token) {
-  //     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  //     return this.http.post('http://localhost:8080/api/v1/Auth/loginStudent', user, { headers })
-
-  //   }
-
-  // }
+ 
   LoginIn(user: any): Observable<any> {
     return this.http.post(
       'http://localhost:8080/api/v1/Auth/loginStudent',
