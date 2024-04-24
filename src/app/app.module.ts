@@ -27,6 +27,8 @@ import { ChangePasswordComponent } from './add-student/change-password/change-pa
 import { SignupComponent } from './Login/auth/signup/signup.component';
 import { ProfileComponent } from './add-student/profile/profile.component';
 import { ResetPasswordComponent } from './Login/auth/reset-password/reset-password.component';
+import { ProfileModule } from './profile/profile.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +40,7 @@ import { ResetPasswordComponent } from './Login/auth/reset-password/reset-passwo
     ChangePasswordComponent,
     SignupComponent,
     ProfileComponent,
-    ResetPasswordComponent,
+    ResetPasswordComponent
  
   ],
   imports: [
@@ -65,7 +67,10 @@ import { ResetPasswordComponent } from './Login/auth/reset-password/reset-passwo
     MatSidenavModule,
     MatToolbarModule,
     DialogModule,
-    DynamicDialogModule
+    DynamicDialogModule,
+    ProfileModule,
+    
+  
     
     
   ],

@@ -15,15 +15,7 @@ export class ResetPasswordComponent {
   public submitted = false;
   public id: any;
   constructor( private service: DataService, private toastr: ToastrService, private router: Router){
-    // const userDataString = localStorage.getItem('userData');
-    // if (userDataString) {
-    //   const userData = JSON.parse(userDataString);
-    //   this.id = userData.id;
-    //   console.log(this.id);
-    // } else {
-    //   console.error('No userData found in local storage');
-    // }
-
+   
   }
   
   public onReset() {

@@ -1,9 +1,27 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataService } from '../Service/data.service';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, Subject, of } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  Subscription,
+  interval,
+  of,
+  takeWhile,
+} from 'rxjs';
 import { LoaderService } from '../Service/loader.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from '../Service/auth.service';
@@ -13,19 +31,25 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ProfileComponent } from './profile/profile.component';
 
-function emailValidator(control: AbstractControl): { [key: string]: any } | null {
+function emailValidator(
+  control: AbstractControl
+): { [key: string]: any } | null {
   const email: string = control.value;
   if (email && !email.toLowerCase().endsWith('.com')) {
-    return { 'invalidEmail': true };
+    return { invalidEmail: true };
   }
   return null;
 }
 @Component({
   selector: 'app-add-student',
   templateUrl: './add-student.component.html',
-  styleUrls: ['./add-student.component.css']
+  styleUrls: ['./add-student.component.css'],
 })
 export class AddStudentComponent implements OnInit {
+  public id: any;
+  public idout: any;
+  public sidebarShow: boolean = false;
+  public isDarkMode: boolean = false;
   @ViewChild('profilePopup', { static: true }) profilePopup!: TemplateRef<any>;
   nameSearch: string = '';
   selectSearch: string = '';
@@ -36,8 +60,23 @@ export class AddStudentComponent implements OnInit {
   isSaved = false;
   password1: string = '';
   confirmPass: string = '';
-
-  constructor(private loader: LoaderService, private fb: FormBuilder, private dialogService: DialogService, private router: Router, private service: DataService, private Authservice: AuthService, private toastr: ToastrService, private spinner: NgxSpinnerService) {
+  timerInterval: any;
+  isClockedIn: boolean = false;
+  clockInOutText: string = 'Clock In';
+  isOnBreak: boolean = false;
+  private timerValuesSubject = new Subject<number>();
+  public timerValues$: Observable<number> =
+    this.timerValuesSubject.asObservable();
+  constructor(
+    private loader: LoaderService,
+    private fb: FormBuilder,
+    private dialogService: DialogService,
+    private router: Router,
+    private service: DataService,
+    private Authservice: AuthService,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
+  ) {
     this.filteredEmployeeData = this.employeeData;
   }
 
@@ -46,7 +85,6 @@ export class AddStudentComponent implements OnInit {
     { value: 'ChangePassword', viewValue: 'Change Password' },
     { value: 'onSignOut', viewValue: 'Sign Out' },
   ];
-
 
   toggleStatusArray: boolean[] = this.employeeData.map(() => false);
   ngOnInit(): void {
@@ -68,10 +106,6 @@ export class AddStudentComponent implements OnInit {
       this.spinner.hide();
     }, 500);
     this.getEmployeeData();
-
-
-
-
   }
 
   onToggleChange(index: number) {
@@ -132,7 +166,7 @@ export class AddStudentComponent implements OnInit {
   onSubmit() {
     if (this.employeeForm.value.empStatus == '') {
       this.toastr.error('CheckBox is not checked');
-      return 
+      return;
     }
     this.submitted = true;
     this.isSaved = true;
@@ -140,24 +174,20 @@ export class AddStudentComponent implements OnInit {
       return;
     }
     let data = {
-      ...this.employeeForm.value
-    }
+      ...this.employeeForm.value,
+    };
     this.service.postData(data).subscribe((res: any) => {
-
       if (res) {
         this.toastr.success('Data Added Successfully');
-        this.submitted = false
+        this.submitted = false;
         this.getEmployeeData();
         this.employeeForm.reset();
+      } else {
+        this.toastr.error(res.error, 'error');
       }
-      else {
-        this.toastr.error(res.error, 'error')
-      }
-    })
+    });
     console.log(this.employeeForm.value);
   }
-
-
 
   getEmployeeData() {
     this.service.getData().subscribe((res: any) => {
@@ -174,16 +204,14 @@ export class AddStudentComponent implements OnInit {
 
   cancelBtn() {
     this.employeeForm.reset();
-    this.submitted = false
-    this.toastr.success('Form Cancelled Successfully')
+    this.submitted = false;
+    this.toastr.success('Form Cancelled Successfully');
     if (!this.isSaved) {
       const result = window.confirm('Are your sure want to cancel? Yes or No');
       return of(result);
     }
 
     return of(true);
-
-
   }
 
   resetBtn() {
@@ -195,26 +223,21 @@ export class AddStudentComponent implements OnInit {
     }
 
     return of(true);
-
   }
 
   keyPressNumbers(event: any) {
-    var charCode = (event.which) ? event.which : event.keyCode;
+    var charCode = event.which ? event.which : event.keyCode;
 
     if (charCode < 48 || charCode > 57) {
-
       event.preventDefault();
       return false;
     } else {
-
       return true;
     }
   }
 
-
-
   goBack() {
-    this.router.navigate(['/'])
+    this.router.navigate(['/']);
   }
 
   password: string = '';
@@ -225,7 +248,6 @@ export class AddStudentComponent implements OnInit {
   }
 
   onDelete(_id: any) {
-
     Swal.fire({
       title: 'Are you sure?',
       text: 'You will not be able to recover this data!',
@@ -251,7 +273,7 @@ export class AddStudentComponent implements OnInit {
 
   onSignOut() {
     this.Authservice.logout();
-    this.router.navigate(['/'])
+    this.router.navigate(['/']);
   }
   newPassword!: string;
   // changePassword(): void {
@@ -267,20 +289,17 @@ export class AddStudentComponent implements OnInit {
   //     console.error('Error getting user ID:', error);
   //   });
   // }
- 
 
   public openChangePasswordModal(): void {
-    
     const ref = this.dialogService.open(ChangePasswordComponent, {
       header: 'Change Password',
-      width: '70%'
+      width: '70%',
     });
 
     ref.onClose.subscribe((passwordChanged: boolean) => {
-      
       if (passwordChanged) {
         console.log('Password changed successfully');
-        ref.close(); 
+        ref.close();
       } else {
         console.log('Password change failed');
       }
@@ -290,14 +309,62 @@ export class AddStudentComponent implements OnInit {
   openProfileModal() {
     const ref = this.dialogService.open(ProfileComponent, {
       header: 'Your Profile',
-      width: '70%'
+      width: '70%',
     });
 
     ref.onClose.subscribe((passwordChanged: boolean) => {
-      
-     
-        ref.close(); 
-      
+      ref.close();
     });
   }
+
+  public onSubmitClockIn() {
+    const data = { id: this.id };
+    this.service.clockInData(data).subscribe(
+      (res) => {
+        console.log(res);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  public onSubmitClockout() {
+    const data = { id: this.idout };
+    this.service.clockOutData(data).subscribe(
+      (res) => {
+        console.log(res);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  public calculateTimeDifference(start: Date, end: Date): string {
+    const diffInMilliseconds = end.getTime() - start.getTime();
+    const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    const diffInDays = Math.floor(diffInHours / 24);
+
+    const hours = diffInHours % 24;
+    const minutes = diffInMinutes % 60;
+    const seconds = diffInSeconds % 60;
+
+    return `${hours.toString().padStart(2, '0')}:${minutes
+      .toString()
+      .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  }
+
+  public toggleDarkMode():void{
+    document.body.classList.toggle('day');
+    document.body.classList.toggle('night');
+  }
+
+  public toggleSidebar() {
+    this.sidebarShow = !this.sidebarShow;
+    const card = document.querySelector('.card');
+    card.classList.toggle('opened', this.sidebarShow);
+}
 }

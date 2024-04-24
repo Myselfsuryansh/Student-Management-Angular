@@ -17,8 +17,8 @@ function emailValidator(control: AbstractControl): { [key: string]: any } | null
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
-  SignUpForm!: FormGroup;
-  LoginForm!: FormGroup;
+  SignUpForm: FormGroup;
+  LoginForm: FormGroup;
 
   submitted = false;
   constructor(private fb: FormBuilder, private service: AuthService, private toastr: ToastrService, private router: Router) {

@@ -1,8 +1,29 @@
+
+<div class="sidebar-opener"  (click)="toggleSidebar()">
+  &#9776;
+</div>
+<div class="sidebar-slider" [class.sidebar-slide-in]="sidebarShow">
+  <div
+      class="sidebar-close"
+      (click)="toggleSidebar()"
+  >
+      X
+  </div>
+  <div class="sidebar-content">
+      <h2>Sidebar</h2>
+      <div style="cursor: pointer;">Add Students</div>
+      <div style="cursor: pointer;">Bank Details</div>
+      <div>Services</div>
+      <div>Prices</div>
+      <div>Downloads</div>
+      <div>Contact Us</div>
+  </div>
+</div>
 <div class="card">
   <div class="card-header d-flex justify-content-between bg-info">
     <h1>Employee Registration</h1>
     <div class="signout">
-      <!-- <button class="btn btn-primary ml-5" (click)="onSignOut()">Profile</button> -->
+    
       <div class="dropdown">
         <mat-form-field>
           <mat-label>My Profile</mat-label>
@@ -12,14 +33,14 @@
               >Change Password</mat-option
             >
             <mat-option (click)="onSignOut()">Sign Out</mat-option>
-            <!-- <p *ngFor="let data of profile; track data" (click)="data.value === 'onSignOut' ? onSignOut() : null" (click)="data.value === 'ChangePassword' ? openSideNav() : null">
-                  <mat-option [value]="data.value">{{data.viewValue}}</mat-option>
-                </p> -->
+            
           </mat-select>
         </mat-form-field>
       </div>
+      
     </div>
   </div>
+ 
   <div class="col-2 ml-3 mt-2">
     <button class="btn btn-primary btn-sm" (click)="goBack()">
       <i class="fas fa-arrow-left"></i> Home
@@ -249,8 +270,8 @@
       </div>
     </form>
   </div>
-</div>
-<div class="card">
+
+
   <div class="card-header bg-danger"><h6>Employee List</h6></div>
   <div class="card-body">
     <div class="row mt-2">
@@ -343,7 +364,6 @@
     </div>
   </div>
 </div>
-
 <ng-template #profilePopup>
   <div class="p-d-flex p-flex-column">
     <!-- Your profile form goes here -->

@@ -52,5 +52,13 @@ export class DataService {
     return this.http.post<any>('http://localhost:8080/api/v1/student/resetPassword',{ newPassword, confirmNewPassword})
   }
 
+  clockInData(data:any){
+    return this.http.post<any>('http://localhost:8080/api/v1/student/clockIn',data);
+  }
+
+  clockOutData(data:any){
+    return this.http.post<any>('http://localhost:8080/api/v1/student/clockOut',data);
+  }
+
 
 }
