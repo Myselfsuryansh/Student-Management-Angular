@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { DataService } from 'src/app/Service/data.service';
-import { DialogService } from 'primeng/dynamicdialog';
 import { ToastrService } from 'ngx-toastr';
+import { DialogService } from 'primeng/dynamicdialog';
+import { DataService } from 'src/app/Service/data.service';
 
 @Component({
   selector: 'app-change-password',

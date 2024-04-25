@@ -1,9 +1,8 @@
 import {
   Component,
-  OnDestroy,
   OnInit,
   TemplateRef,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import {
   AbstractControl,
@@ -12,22 +11,18 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DataService } from '../Service/data.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { DialogService } from 'primeng/dynamicdialog';
 import {
   Observable,
   Subject,
-  Subscription,
-  interval,
-  of,
-  takeWhile,
+  of
 } from 'rxjs';
-import { LoaderService } from '../Service/loader.service';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { AuthService } from '../Service/auth.service';
 import Swal from 'sweetalert2';
-import { MatSidenav } from '@angular/material/sidenav';
-import { DialogService } from 'primeng/dynamicdialog';
+import { AuthService } from '../Service/auth.service';
+import { DataService } from '../Service/data.service';
+import { LoaderService } from '../Service/loader.service';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ProfileComponent } from './profile/profile.component';
 

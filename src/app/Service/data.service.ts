@@ -76,11 +76,5 @@ export class DataService {
     return this.http.get('http://localhost:8080/api/v1/Bank/getDistrictName')
   }
 
-  // getDistrictName(state: any): Observable<any[]> {
-  //   const url = 'http://localhost:8080/api/v1/Bank/getDistrictName';
-  //   const params = new HttpParams().set('state', state);
-  //   return this.http.get<any[]>(url, { params });
-  // }
-
 
 }

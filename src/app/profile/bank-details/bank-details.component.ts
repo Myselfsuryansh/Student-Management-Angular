@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DataService } from 'src/app/Service/data.service';
-import { CapitalizeInputDirective } from './CapitalizeInputDirective';
 export function uppercaseValidator(c: FormControl) {
   let regex = /[A-Z]/g
   if (regex.test(c.value)) {
