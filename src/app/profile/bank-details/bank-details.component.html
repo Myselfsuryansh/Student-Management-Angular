@@ -1,1 +1,281 @@
-<!-- <app-sidebar></app-sidebar> -->
+<div class="sidebar-opener"  (click)="toggleSidebar()">
+    &#9776;
+  </div>
+  <div class="sidebar-slider" [class.sidebar-slide-in]="sidebarShow">
+    <div
+        class="sidebar-close"
+        (click)="toggleSidebar()"
+    >
+        X
+    </div>
+    <div class="sidebar-content">
+        <h2>Sidebar</h2>
+        <div style="cursor: pointer;">Add Students</div>
+        <div style="cursor: pointer;" routerLink="/bankdetails">Bank Details</div>
+        <div>Services</div>
+        <div>Prices</div>
+        <div>Downloads</div>
+        <div>Contact Us</div>
+    </div>
+  </div>
+<div class="card">
+    <div class="card-header d-flex justify-content-between bg-info">
+      <h1>Bank Details</h1>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="bankDetailsForm" (ngSubmit)="onSubmit()">
+        <div class="row mt-2">
+  
+            <div class="form-group col">
+                <label>Bank Name</label>
+                <!-- Input Box -->
+                <input type="text" class="form-control" formControlName="bankName" [ngClass]="{ 'is-invalid': submitted && f.state.errors }" [matAutocomplete]="auto" required>
+                <!-- Autocomplete Dropdown -->
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let d of bankNames" [value]="d">
+                    {{ d }}
+                  </mat-option>
+                </mat-autocomplete>
+                <!-- Error Message -->
+                <div *ngIf="submitted && f.bankName.errors" class="invalid-feedback">
+                  <span *ngIf="f.bankName.errors?.required">Bank Name is required</span>
+                </div>
+              </div>
+
+              <div class="form-group col">
+                <label>State</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="state"
+                  [matAutocomplete]="auto1"
+                  [ngClass]="{ 'is-invalid': submitted && f.state.errors }"
+                  (input)="districtDetails()"
+                  required
+                />
+                <mat-autocomplete #auto1="matAutocomplete">
+                    <mat-option *ngFor="let s of stateName" [value]="s">
+                      {{ s}}
+                    </mat-option>
+                  </mat-autocomplete>
+                <span *ngIf="submitted && f.state.errors" class="invalid-feedback">
+                  <span *ngIf="f.state.errors?.required"
+                    >State is Required</span
+                  >
+                </span>
+              </div>
+
+              <div class="form-group col">
+                <label>District</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="district"
+                  [matAutocomplete]="auto2"
+                  [ngClass]="{ 'is-invalid': submitted && f.district.errors }"
+                  required
+                /> 
+                <mat-autocomplete #auto2="matAutocomplete">
+                    <mat-option *ngFor="let a of districtName" [value]="a">
+                      {{ a }}
+                    </mat-option>
+                  </mat-autocomplete>
+                
+                <span *ngIf="submitted && f.district.errors" class="invalid-feedback">
+                  <span *ngIf="f.district.errors?.required"
+                    >District is Required</span
+                  >
+                </span>
+              </div>
+              
+          <div class="form-group col">
+            <label>Bank Branch</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="bankBranch"
+              name="bankBranch"
+              id="bankBranch"
+              [ngClass]="{ 'is-invalid': submitted && f.bankBranch.errors }"
+              required
+            />
+            <span *ngIf="submitted && f.bankBranch.errors" class="invalid-feedback">
+              <span *ngIf="f.bankBranch.errors?.required"
+                >Branch Name is Required</span
+              >
+            </span>
+          </div>
+  
+          <div class="form-group col">
+            <label>Account Number</label>
+            <input
+              type="text"
+              class="form-control"
+              (keypress)="keyPressNumbers($event)"
+              x
+              formControlName="accountNumber"
+              name="accountNumber"
+              maxlength="15"
+              [ngClass]="{ 'is-invalid': submitted && f.accountNumber.errors }"
+              mask="00000000-00000000||00000000-00000000-00000000"
+              required
+             
+            />
+            <span *ngIf="submitted && f.accountNumber.errors" class="invalid-feedback">
+              <span *ngIf="f.accountNumber.errors?.required">accountNumber is Required</span>
+            </span>
+          </div>
+        
+  
+        <div class="row mt-2">
+          <div class="form-group col">
+            <label>Account Type</label>
+            <select
+              class="form-control"
+              formControlName="AccountType"
+              name="AccountType"
+              id="AccountType"
+              [ngClass]="{ 'is-invalid': submitted && f.AccountType.errors }"
+              required
+            >
+              <option value="">--Select--</option>
+              <option value="Savings">Savings</option>
+              <option value="Current">Current</option>
+            </select>
+            <span *ngIf="submitted && f.AccountType.errors" class="invalid-feedback">
+              <span *ngIf="f.AccountType.errors?.required">AccountType is Required</span>
+            </span>
+          </div>
+  
+        </div>
+  
+        <div class="row mt-2">
+          <div class="form-group col">
+            <label>IFSC </label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="IFSCCode"
+              name="IFSCCode"
+              maxlength="11"
+              (keyup)="onKeyup($event)"
+              [ngClass]="{ 'is-invalid': submitted && f.IFSCCode.errors }"
+              required
+            />
+            <span *ngIf="submitted && f.IFSCCode.errors" class="invalid-feedback">
+              <span *ngIf="f.IFSCCode.errors?.required">IFSC is Required</span>
+            </span>
+          </div>
+  
+        </div>
+    </div>
+  
+  
+        <div class="row mt-2">
+          <div class="form-group text-center">
+            <button type="submit" class="btn btn-success me-2">Save</button>
+            <button
+              type="button"
+              class="btn btn-danger me-2"
+              (click)="cancelBtn()"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  
+  
+    <div class="card-header bg-danger"><h6>Employee List</h6></div>
+    <!-- <div class="card-body">
+      <div class="row mt-2">
+        <div class="mb-3 col-4">
+          <div class="d-flex mb-5 col-12">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="nameSearch"
+              placeholder="Enter Value"
+            />
+            <br />
+            <select
+              class="form-select keft"
+              aria-label="Default Select"
+              [(ngModel)]="selectSearch"
+            >
+              <option value="">Please Select</option>
+              <option value="department">Department</option>
+              <option value="bankBranch">Employee Name</option>
+              <option value="accountNumber">accountNumber</option>
+              <option value="accountType">accountType</option>
+              <option value="joinDate">Joining Date</option>
+              <option value="email">Email</option>
+            </select>
+          </div>
+        </div>
+        <table class="table table-bordered table-responsive table-striped">
+          <thead>
+            <tr>
+              <th>Department</th>
+              <th>Emplaoyee Name</th>
+              <th>accountNumber</th>
+              <th>accountType</th>
+              <th>Joining Date</th>
+              <th>Email</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+  
+          <tbody>
+            <tr
+              *ngFor="
+                let data of pagedEmployeeData() | app : nameSearch : selectSearch;
+                let i = index
+              "
+            >
+              <td>{{ data.department }}</td>
+              <td>{{ capitalizeFirstLetter(data.bankBranch) }}</td>
+              <td>{{ data.accountNumber }}</td>
+              <td>{{ data.accountType }}</td>
+              <td>{{ data.joinDate|date }}</td>
+              <td>{{ data.email }}</td>
+              <td class="text-center">
+                <mat-slide-toggle
+                  [(ngModel)]="toggleStatusArray[i]"
+                  color="primary"
+                  (onChange)="onToggleChange(i)"
+                ></mat-slide-toggle>
+                <button
+                  [routerLink]="['/edit', data._id]"
+                  class="btn btn-primary me-2"
+                  [disabled]="toggleStatusArray[i]"
+                >
+                  Edit
+                </button>
+                <button
+                  [routerLink]="['/view', data._id]"
+                  class="btn btn-info me-2"
+                  [disabled]="toggleStatusArray[i]"
+                >
+                  View
+                </button>
+                <button
+                  class="btn btn-danger me-2"
+                  (click)="onDelete(data._id)"
+                  [disabled]="toggleStatusArray[i]"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p-paginator
+          [rows]="itemsPerPage"
+          [totalRecords]="filteredEmployeeData.length"
+          (onPageChange)="onPageChange($event)"
+        ></p-paginator>
+      </div>
+    </div> -->
+  </div>

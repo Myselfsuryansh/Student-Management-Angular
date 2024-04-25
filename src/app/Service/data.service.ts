@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, from, map, switchMap } from 'rxjs';
 @Injectable({
@@ -59,6 +59,28 @@ export class DataService {
   clockOutData(data:any){
     return this.http.post<any>('http://localhost:8080/api/v1/student/clockOut',data);
   }
+
+  postBankDetails(data:any){
+    return this.http.post('http://localhost:8080/api/v1/Bank/registerBankDetails',data)
+  }
+
+  getSpecificBankDetails(){
+    return this.http.get('http://localhost:8080/api/v1/Bank/getSpecificBankDetails')
+  }
+
+  getStateName(){
+    return this.http.get('http://localhost:8080/api/v1/Bank/getStateName');
+  }
+
+  getDistrictName(){
+    return this.http.get('http://localhost:8080/api/v1/Bank/getDistrictName')
+  }
+
+  // getDistrictName(state: any): Observable<any[]> {
+  //   const url = 'http://localhost:8080/api/v1/Bank/getDistrictName';
+  //   const params = new HttpParams().set('state', state);
+  //   return this.http.get<any[]>(url, { params });
+  // }
 
 
 }

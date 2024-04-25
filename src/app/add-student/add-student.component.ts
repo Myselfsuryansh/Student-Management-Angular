@@ -53,7 +53,7 @@ export class AddStudentComponent implements OnInit {
   @ViewChild('profilePopup', { static: true }) profilePopup!: TemplateRef<any>;
   nameSearch: string = '';
   selectSearch: string = '';
-  employeeForm!: FormGroup;
+  employeeForm: FormGroup;
   employeeData: any[] = [];
   submitted = false;
 

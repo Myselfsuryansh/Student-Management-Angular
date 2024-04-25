@@ -11,7 +11,8 @@ import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
 import { BankDetailsComponent } from './bank-details/bank-details.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 @NgModule({
   declarations: [
     ProfileComponent,
@@ -28,6 +29,9 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
     MatToolbarModule,
     MatListModule,
     MatIconModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule
   ]
 })
 export class ProfileModule { }
