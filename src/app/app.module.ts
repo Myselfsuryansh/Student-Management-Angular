@@ -28,6 +28,7 @@ import { SignupComponent } from './Login/auth/signup/signup.component';
 import { ProfileComponent } from './add-student/profile/profile.component';
 import { ResetPasswordComponent } from './Login/auth/reset-password/reset-password.component';
 import { ProfileModule } from './profile/profile.module';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ProfileModule } from './profile/profile.module';
     ChangePasswordComponent,
     SignupComponent,
     ProfileComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    NotFoundComponent
  
   ],
   imports: [

@@ -12,7 +12,7 @@ const routes: Routes = [
   {path:'resetPassword',component:ResetPasswordComponent},
   { path: 'add-student', component: AddStudentComponent, canActivate: [AuthGuard] },
   { path: 'edit/:id', component: EditStudentsComponent },
-  { path: 'view/:id', component: ViewStudentsComponent },
+  { path: 'view/:id', component: ViewStudentsComponent }
 ];
 
 @NgModule({
