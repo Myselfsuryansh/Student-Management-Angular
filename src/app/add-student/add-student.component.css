@@ -60,10 +60,14 @@ body {
 }
 
 .card  {
-transition: ease-in-out 600ms margin-left; 
+  position: relative;
+  transition: ease-in-out 600ms margin-left; 
 }
+
+
 
 
 .card.opened {
 margin-left: calc(59vh); 
 }
+

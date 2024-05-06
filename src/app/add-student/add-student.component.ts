@@ -101,6 +101,7 @@ export class AddStudentComponent implements OnInit {
       this.spinner.hide();
     }, 500);
     this.getEmployeeData();
+    
   }
 
   onToggleChange(index: number) {
@@ -352,14 +353,18 @@ export class AddStudentComponent implements OnInit {
       .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
 
-  public toggleDarkMode():void{
-    document.body.classList.toggle('day');
-    document.body.classList.toggle('night');
-  }
+//   public toggleDarkMode():void{
+//     document.body.classList.toggle('day');
+//     document.body.classList.toggle('night');
+//   }
 
   public toggleSidebar() {
     this.sidebarShow = !this.sidebarShow;
     const card = document.querySelector('.card');
     card.classList.toggle('opened', this.sidebarShow);
 }
+
+
+
+
 }
