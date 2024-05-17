@@ -25,7 +25,8 @@ import { DataService } from '../Service/data.service';
 import { LoaderService } from '../Service/loader.service';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ProfileComponent } from './profile/profile.component';
-
+import {Chart, registerables} from 'node_modules/chart.js';
+Chart.register(...registerables)
 function emailValidator(
   control: AbstractControl
 ): { [key: string]: any } | null {
@@ -41,10 +42,12 @@ function emailValidator(
   styleUrls: ['./add-student.component.css'],
 })
 export class AddStudentComponent implements OnInit {
+  barChart: Chart;
   public id: any;
   public idout: any;
   public sidebarShow: boolean = false;
   public isDarkMode: boolean = false;
+  public filteredChartEmployeData=[];
   @ViewChild('profilePopup', { static: true }) profilePopup!: TemplateRef<any>;
   nameSearch: string = '';
   selectSearch: string = '';
@@ -101,7 +104,8 @@ export class AddStudentComponent implements OnInit {
       this.spinner.hide();
     }, 500);
     this.getEmployeeData();
-    
+
+   
   }
 
   onToggleChange(index: number) {
@@ -190,6 +194,10 @@ export class AddStudentComponent implements OnInit {
       if (res && res.getAllStudent) {
         console.log(res.getAllStudent);
         this.filteredEmployeeData = res.getAllStudent;
+        console.log( this.filteredEmployeeData ,'klklklk')
+        this.filteredChartEmployeData= res.getAllStudent;
+        console.log(this.filteredChartEmployeData,'opopop');
+        this.updateChart()
       }
     });
   }
@@ -364,6 +372,60 @@ export class AddStudentComponent implements OnInit {
     card.classList.toggle('opened', this.sidebarShow);
 }
 
+
+updateChart(){
+  const filteredEmployees = this.filteredEmployeeData.filter((employee: any) => {
+    return employee.department === 'Administrator' || employee.department === 'Accounts';
+  });
+  const administratorSalaries: any[] = [];
+  const accountsSalaries: any[] = [];
+
+  console.log(this.filteredChartEmployeData,'ghghgh')
+  const departmentNames = this.filteredEmployeeData.map((employee: any) => employee.department);
+  console.log(departmentNames,'departmentNames')
+  filteredEmployees.forEach((employee: any) => {
+    if (employee.department == 'Administrator') {
+      administratorSalaries.push(employee.salary);
+    } else if (employee.department == 'Accounts') {
+      accountsSalaries.push(employee.salary);
+    }
+  });
+
+  console.log(administratorSalaries, 'administratorSalaries');
+  console.log(accountsSalaries, 'accountsSalaries');
+
+  console.log(departmentNames, 'departmentNames');
+  const ctx = document.getElementById('barChart') as HTMLCanvasElement;
+  this.barChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: departmentNames,
+      datasets: [{
+        label: 'Salary of an Employee',
+        data: accountsSalaries,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)', 
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)', 
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+  
+}
 
 
 

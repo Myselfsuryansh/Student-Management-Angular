@@ -36,7 +36,8 @@ export class BankDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.bankDetails()
+    this.bankDetails();
+    this.getAllProject()
     this.stateDetails()
     this.districtDetails()
   }
@@ -121,5 +122,11 @@ export class BankDetailsComponent implements OnInit {
     this.sidebarShow = !this.sidebarShow;
     const card = document.querySelector('.card');
     card.classList.toggle('opened', this.sidebarShow);
+}
+
+getAllProject(){
+  this.service.getAllProject().subscribe((res)=>{
+    console.log(res)
+  })
 }
 }

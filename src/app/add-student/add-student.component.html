@@ -360,10 +360,16 @@
         </tbody>
       </table>
       <p-paginator
-        [rows]="itemsPerPage"
-        [totalRecords]="filteredEmployeeData.length"
-        (onPageChange)="onPageChange($event)"
-      ></p-paginator>
+      [rows]="itemsPerPage"
+      [totalRecords]="filteredEmployeeData.length"
+      (onPageChange)="onPageChange($event)"
+    ></p-paginator>
+      <div class="row justify-content-center">
+        <div class="col-lg-12">
+          <h2 class="row justify-content-center">Bar Chart</h2>
+          <canvas id="barChart"></canvas>
+        </div>
+      </div>
     </div>
   </div>
 </div>

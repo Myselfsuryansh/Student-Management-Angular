@@ -76,5 +76,12 @@ export class DataService {
     return this.http.get('http://localhost:8080/api/v1/Bank/getDistrictName')
   }
 
+  // getAllProject(){
+  //   return this.http.get('https://cors-anywhere.herokuapp.com/http://freeapi.miniprojectideas.com/api/Jira/GetAllProjects')
+  // }
+
+  getAllProject(){
+    return this.http.get('http://localhost:8080/api/v1/Jira/getJiraDetails')
+  }
 
 }

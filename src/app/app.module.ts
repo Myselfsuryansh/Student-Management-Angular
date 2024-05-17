@@ -29,6 +29,8 @@ import { ProfileComponent } from './add-student/profile/profile.component';
 import { ResetPasswordComponent } from './Login/auth/reset-password/reset-password.component';
 import { ProfileModule } from './profile/profile.module';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { LoaderComponent } from './Service/Loader/loader/loader.component';
+import { LoaderInterceptors } from './Service/Loader/loader.interceptor';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     SignupComponent,
     ProfileComponent,
     ResetPasswordComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    LoaderComponent
  
   ],
   imports: [
@@ -77,7 +80,11 @@ import { NotFoundComponent } from './not-found/not-found.component';
     
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptors,
+      multi: true,
+    },
     DialogService
     
     

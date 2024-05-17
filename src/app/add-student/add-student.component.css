@@ -70,4 +70,8 @@ body {
 .card.opened {
 margin-left: calc(59vh); 
 }
+#barChart {
+  width: 100% !important;
+  height: auto ;
+}
 
