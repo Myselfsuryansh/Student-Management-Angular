@@ -4,14 +4,38 @@
 @import "ngx-toastr/toastr";
 @import "primeng/resources/primeng.css";
 @import "primeng/resources/themes/lara-light-blue/theme.css";
-html,
-body {
-  height: 100%;
+
+:root {
+  --primary-color: #edf2fc;
+  --secondary-color: #212121;
+  --background-color: #ffffff;
+  --text-color: #000000;
 }
+
+.dark-theme {
+  --primary-color: #000106;
+  --secondary-color: #ffffff;
+  --background-color: #000000;
+  --text-color: #ffffff;
+}
+
 body {
+  background-color: var(--background-color);
+  color: var(--text-color);
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.header, .footer, .content, .router-content {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+html, body {
+  height: 100%;
+}
+
+
 /* 
 .dark-mode {
 

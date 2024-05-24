@@ -1,5 +1,6 @@
 import {
   Component,
+  HostBinding,
   OnInit,
   TemplateRef,
   ViewChild
@@ -7,12 +8,13 @@ import {
 import {
   AbstractControl,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ToastrService } from 'ngx-toastr';
+import { OverlayContainer, ToastrService } from 'ngx-toastr';
 import { DialogService } from 'primeng/dynamicdialog';
 import {
   Observable,
@@ -62,6 +64,12 @@ export class AddStudentComponent implements OnInit {
   isClockedIn: boolean = false;
   clockInOutText: string = 'Clock In';
   isOnBreak: boolean = false;
+  public switchTheme = new FormControl(false);
+  @HostBinding('class') className='';
+
+  public darkClass ='.theme-dark';
+  public lightClass ='.theme-light';
+
   private timerValuesSubject = new Subject<number>();
   public timerValues$: Observable<number> =
     this.timerValuesSubject.asObservable();
@@ -73,9 +81,11 @@ export class AddStudentComponent implements OnInit {
     private service: DataService,
     private Authservice: AuthService,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private overlay:OverlayContainer
   ) {
     this.filteredEmployeeData = this.employeeData;
+   
   }
 
   profile: any[] = [
@@ -105,8 +115,22 @@ export class AddStudentComponent implements OnInit {
     }, 500);
     this.getEmployeeData();
 
+    this.switchTheme.valueChanges.subscribe((isDarkMode: boolean) => {
+      this.toggleDarkTheme(isDarkMode);
+    });
+    
    
   }
+
+  toggleDarkTheme(isDarkMode: boolean = this.switchTheme.value) {
+    const body = document.body;
+    if (isDarkMode) {
+      body.classList.add('dark-theme');
+    } else {
+      body.classList.remove('dark-theme');
+    }
+  }
+
 
   onToggleChange(index: number) {
     this.toggleStatusArray[index] = !this.toggleStatusArray[index];
@@ -425,6 +449,8 @@ updateChart(){
     }
   });
   
+}
+public changeDayNight(){
 }
 
 

@@ -1,4 +1,4 @@
-
+<!-- 
 <div class="sidebar-opener"  (click)="toggleSidebar()">
   &#9776;
 </div>
@@ -18,7 +18,7 @@
       <div>Downloads</div>
       <div>Contact Us</div>
   </div>
-</div>
+</div> -->
 
  <div class="card">
   <div class="card-header d-flex justify-content-between bg-info">
@@ -31,6 +31,8 @@
         <mat-form-field>
           <mat-label>My Profile</mat-label>
           <mat-select>
+            <!-- <mat-option (click)="changeDayNight()">Change night and Day</mat-option> -->
+            <mat-slide-toggle [formControl]="switchTheme" id="icon" (change)="toggleDarkTheme()">Change night and Day</mat-slide-toggle>
             <mat-option (click)="openProfileModal()">My Profile</mat-option>
             <mat-option (click)="openChangePasswordModal()"
               >Change Password</mat-option

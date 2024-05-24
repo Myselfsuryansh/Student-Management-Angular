@@ -31,7 +31,8 @@ import { ProfileModule } from './profile/profile.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoaderComponent } from './Service/Loader/loader/loader.component';
 import { LoaderInterceptors } from './Service/Loader/loader.interceptor';
-
+import { CalendarModule } from 'primeng/calendar';
+import { TokenInterceptor } from './Service/Token/token.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,7 +75,7 @@ import { LoaderInterceptors } from './Service/Loader/loader.interceptor';
     DialogModule,
     DynamicDialogModule,
     ProfileModule,
-    
+    CalendarModule
   
     
     
@@ -83,6 +84,11 @@ import { LoaderInterceptors } from './Service/Loader/loader.interceptor';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptors,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
       multi: true,
     },
     DialogService
