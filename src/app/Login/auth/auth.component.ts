@@ -54,7 +54,7 @@ export class AuthComponent implements OnInit {
     let data = {
       ...this.SignUpForm.value
     }
-    this.service.signUp(data).subscribe((res: any) => {
+    this.service.signUp(data).subscribe((res:any) => {
       if (res) {
         this.toastr.success('Sign Up Successfully');
         this.submitted = false;
