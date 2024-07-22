@@ -17,8 +17,8 @@ function emailValidator(control: AbstractControl): { [key: string]: any } | null
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
-  SignUpForm: FormGroup;
-  LoginForm: FormGroup;
+  public SignUpForm: FormGroup;
+  public LoginForm: FormGroup;
 
   submitted = false;
   constructor(private fb: FormBuilder, private service: AuthService, private toastr: ToastrService, private router: Router) {
@@ -45,7 +45,7 @@ export class AuthComponent implements OnInit {
     return this.LoginForm.controls
   }
 
-  onSubmit() {
+  public onSubmit() {
     console.log(this.SignUpForm.value, this.SignUpForm.valid)
     this.submitted = true;
     if (this.SignUpForm.invalid) {
@@ -66,7 +66,7 @@ export class AuthComponent implements OnInit {
     })
   }
 
-  onLogin() {
+  public onLogin() {
     console.log(this.LoginForm.value, this.LoginForm.valid);
     this.submitted = true;
     if (this.LoginForm.invalid) {
@@ -97,7 +97,7 @@ export class AuthComponent implements OnInit {
     })
   }
 
-  handleExpiredToken(): void {
+  private handleExpiredToken(): void {
     
     localStorage.removeItem('token');
     localStorage.removeItem('userData');
@@ -108,7 +108,7 @@ export class AuthComponent implements OnInit {
   }
 
   // Method to schedule token refresh
-  scheduleTokenRefresh(): void {
+  private scheduleTokenRefresh(): void {
     const token = localStorage.getItem('token');
     if (!token) {
       return;
@@ -127,7 +127,7 @@ export class AuthComponent implements OnInit {
   }
 
   // Method to refresh token
-  refreshToken(): void {
+  private refreshToken(): void {
     // Implement token refresh logic here (e.g., call a backend endpoint to refresh token)
     // Update localStorage with the new token if successfully refreshed
     // Handle token refresh failure gracefully

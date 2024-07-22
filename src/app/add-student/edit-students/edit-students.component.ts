@@ -10,10 +10,10 @@ import { DataService } from 'src/app/Service/data.service';
   styleUrls: ['./edit-students.component.css']
 })
 export class EditStudentsComponent implements OnInit {
-  itemId: any;
-  item: any;
-  employeeForm!: FormGroup;
-  submitted = false;
+  public itemId: any;
+  public item: any;
+  public employeeForm!: FormGroup;
+  public submitted = false;
 
   constructor(private service: DataService, private activatedRouter: ActivatedRoute, private fb: FormBuilder, private router: Router, private toastr: ToastrService) {
 
@@ -50,7 +50,7 @@ export class EditStudentsComponent implements OnInit {
   }
 
 
-  onUpdate() {
+  public onUpdate() {
     if (this.employeeForm.value.empStatus == '') {
       this.toastr.error('CheckBox is not Checked')
     }
@@ -68,7 +68,7 @@ export class EditStudentsComponent implements OnInit {
     }
 
   }
-  getDataForEdit(_id: number): void {
+  protected getDataForEdit(_id: number): void {
     this.service.getDataForSpecificID(_id).subscribe((response: any) => {
       if (response.success && response.studentId) {
         const studentData = response.studentId;
@@ -91,7 +91,7 @@ export class EditStudentsComponent implements OnInit {
   }
   
 
-  keyPressNumbers(event: any) {
+  protected keyPressNumbers(event: any) {
     var charCode = (event.which) ? event.which : event.keyCode;
     // Only Numbers 0-9
     if ((charCode < 48 || charCode > 57)) {
@@ -101,7 +101,7 @@ export class EditStudentsComponent implements OnInit {
       return true;
     }
   }
-  goBack(): void {
+  protected goBack(): void {
     this.router.navigate(['/add-student'])
   }
 

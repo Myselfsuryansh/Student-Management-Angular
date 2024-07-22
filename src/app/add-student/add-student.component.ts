@@ -1,6 +1,8 @@
 import {
+  AfterViewInit,
   Component,
   HostBinding,
+  OnDestroy,
   OnInit,
   TemplateRef,
   ViewChild
@@ -12,14 +14,19 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { OverlayContainer, ToastrService } from 'ngx-toastr';
+import { Chart, registerables } from 'node_modules/chart.js';
 import { DialogService } from 'primeng/dynamicdialog';
 import {
   Observable,
+  ReplaySubject,
   Subject,
-  of
+  of,
+  take,
+  takeUntil
 } from 'rxjs';
 import Swal from 'sweetalert2';
 import { AuthService } from '../Service/auth.service';
@@ -27,8 +34,7 @@ import { DataService } from '../Service/data.service';
 import { LoaderService } from '../Service/loader.service';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ProfileComponent } from './profile/profile.component';
-import {Chart, registerables} from 'node_modules/chart.js';
-Chart.register(...registerables)
+Chart.register(...registerables);
 function emailValidator(
   control: AbstractControl
 ): { [key: string]: any } | null {
@@ -38,38 +44,64 @@ function emailValidator(
   }
   return null;
 }
+
+export interface Bank {
+  id: string;
+  name: string;
+}
+
+
+
+/** list of banks */
+export const BANKS: Bank[] = [
+  {name: 'Bank A (Switzerland)', id: 'A'},
+  {name: 'Bank B (Switzerland)', id: 'B'},
+  {name: 'Bank C (France)', id: 'C'},
+  {name: 'Bank D (France)', id: 'D'},
+  {name: 'Bank E (France)', id: 'E'},
+  {name: 'Bank F (Italy)', id: 'F'},
+  {name: 'Bank G (Italy)', id: 'G'},
+  {name: 'Bank H (Italy)', id: 'H'},
+  {name: 'Bank I (Italy)', id: 'I'},
+  {name: 'Bank J (Italy)', id: 'J'},
+  {name: 'Bank Kolombia (United States of America)', id: 'K'},
+  {name: 'Bank L (Germany)', id: 'L'},
+  {name: 'Bank M (Germany)', id: 'M'},
+  {name: 'Bank N (Germany)', id: 'N'},
+  {name: 'Bank O (Germany)', id: 'O'},
+  {name: 'Bank P (Germany)', id: 'P'},
+  {name: 'Bank Q (Germany)', id: 'Q'},
+  {name: 'Bank R (Germany)', id: 'R'}
+];
 @Component({
   selector: 'app-add-student',
   templateUrl: './add-student.component.html',
   styleUrls: ['./add-student.component.css'],
 })
-export class AddStudentComponent implements OnInit {
-  barChart: Chart;
+export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
+  @HostBinding('class') className='';
+  @ViewChild('profilePopup', { static: true }) profilePopup!: TemplateRef<any>;
+  public barChart: Chart;
   public id: any;
   public idout: any;
   public sidebarShow: boolean = false;
   public isDarkMode: boolean = false;
   public filteredChartEmployeData=[];
-  @ViewChild('profilePopup', { static: true }) profilePopup!: TemplateRef<any>;
-  nameSearch: string = '';
-  selectSearch: string = '';
-  employeeForm: FormGroup;
-  employeeData: any[] = [];
-  submitted = false;
-
-  isSaved = false;
-  password1: string = '';
-  confirmPass: string = '';
-  timerInterval: any;
-  isClockedIn: boolean = false;
-  clockInOutText: string = 'Clock In';
-  isOnBreak: boolean = false;
+  public nameSearch: string = '';
+  public selectSearch: string = '';
+  public employeeForm: FormGroup;
+  public employeeData: any[] = [];
+  public submitted = false;
+  public isSaved = false;
+  public password1: string = '';
+  public confirmPass: string = '';
+  public timerInterval: any;
+  public isClockedIn: boolean = false;
+  public clockInOutText: string = 'Clock In';
+  public isOnBreak: boolean = false;
   public switchTheme = new FormControl(false);
-  @HostBinding('class') className='';
-
   public darkClass ='.theme-dark';
   public lightClass ='.theme-light';
-
   private timerValuesSubject = new Subject<number>();
   public timerValues$: Observable<number> =
     this.timerValuesSubject.asObservable();
@@ -95,6 +127,21 @@ export class AddStudentComponent implements OnInit {
   ];
 
   toggleStatusArray: boolean[] = this.employeeData.map(() => false);
+  protected banks: Bank[] = BANKS;
+
+  /** control for the selected bank */
+  public bankCtrl: FormControl<Bank> = new FormControl<Bank>(null);
+
+  /** control for the MatSelect filter keyword */
+  public bankFilterCtrl: FormControl<string> = new FormControl<string>('');
+
+  /** list of banks filtered by search keyword */
+  public filteredBanks: ReplaySubject<Bank[]> = new ReplaySubject<Bank[]>(1);
+
+  @ViewChild('singleSelect', { static: true }) singleSelect: MatSelect;
+
+  /** Subject that emits when the component has been destroyed. */
+  protected _onDestroy = new Subject<void>();
   ngOnInit(): void {
     this.employeeForm = this.fb.group({
       department: ['', Validators.required],
@@ -118,11 +165,64 @@ export class AddStudentComponent implements OnInit {
     this.switchTheme.valueChanges.subscribe((isDarkMode: boolean) => {
       this.toggleDarkTheme(isDarkMode);
     });
+
+    this.bankCtrl.setValue(this.banks[10]);
+
+    // load the initial bank list
+    this.filteredBanks.next(this.banks.slice());
+
+    // listen for search field value changes
+    this.bankFilterCtrl.valueChanges
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.filterBanks();
+      });
     
    
   }
+  ngAfterViewInit() {
+    this.setInitialValue();
+  }
 
-  toggleDarkTheme(isDarkMode: boolean = this.switchTheme.value) {
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
+
+  protected setInitialValue() {
+    this.filteredBanks
+      .pipe(take(1), takeUntil(this._onDestroy))
+      .subscribe(() => {
+        // setting the compareWith property to a comparison function
+        // triggers initializing the selection according to the initial value of
+        // the form control (i.e. _initializeSelection())
+        // this needs to be done after the filteredBanks are loaded initially
+        // and after the mat-option elements are available
+        this.singleSelect!.compareWith = (a: Bank, b: Bank) => a && b && a.id === b.id;
+      });
+  }
+
+
+  protected filterBanks() {
+    if (!this.banks) {
+      return;
+    }
+    // get the search keyword
+    let search = this.bankFilterCtrl.value;
+    if (!search) {
+      this.filteredBanks.next(this.banks.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.filteredBanks.next(
+      this.banks.filter(bank => bank.name.toLowerCase().indexOf(search) > -1)
+    );
+  }
+
+
+  protected toggleDarkTheme(isDarkMode: boolean = this.switchTheme.value) {
     const body = document.body;
     if (isDarkMode) {
       body.classList.add('dark-theme');
@@ -132,12 +232,12 @@ export class AddStudentComponent implements OnInit {
   }
 
 
-  onToggleChange(index: number) {
+  public onToggleChange(index: number) {
     this.toggleStatusArray[index] = !this.toggleStatusArray[index];
   }
 
-  sortOrder: string = 'asc';
-  sortedColumn: string = '';
+  public sortOrder: string = 'asc';
+  public sortedColumn: string = '';
   sortBy(column: string): void {
     if (column !== 'department') {
       return;
@@ -164,21 +264,21 @@ export class AddStudentComponent implements OnInit {
     });
   }
 
-  filteredEmployeeData!: any[];
-  searchTerm: string = '';
+  public filteredEmployeeData!: any[];
+  private searchTerm: string = '';
   applyFilter() {
     this.filteredEmployeeData = this.employeeData.filter((data: any) =>
       data.empName.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
-  onPageChange(event: any): void {
+  public onPageChange(event: any): void {
     this.currentPage = event.page + 1;
   }
 
-  itemsPerPage = 5;
-  currentPage = 1;
+  public itemsPerPage = 5;
+  public currentPage = 1;
 
-  pagedEmployeeData(): any[] {
+  public pagedEmployeeData(): any[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     return this.filteredEmployeeData.slice(startIndex, endIndex);
@@ -213,7 +313,7 @@ export class AddStudentComponent implements OnInit {
     console.log(this.employeeForm.value);
   }
 
-  getEmployeeData() {
+  protected getEmployeeData() {
     this.service.getData().subscribe((res: any) => {
       if (res && res.getAllStudent) {
         console.log(res.getAllStudent);
@@ -226,11 +326,11 @@ export class AddStudentComponent implements OnInit {
     });
   }
 
-  capitalizeFirstLetter(name: string): string {
+  protected capitalizeFirstLetter(name: string): string {
     return name.charAt(0).toUpperCase() + name.slice(1);
   }
 
-  cancelBtn() {
+  public cancelBtn() {
     this.employeeForm.reset();
     this.submitted = false;
     this.toastr.success('Form Cancelled Successfully');
@@ -242,7 +342,7 @@ export class AddStudentComponent implements OnInit {
     return of(true);
   }
 
-  resetBtn() {
+  public resetBtn() {
     this.employeeForm.reset();
     this.toastr.success('Form Resetted Successfully');
     if (!this.isSaved) {
@@ -253,7 +353,7 @@ export class AddStudentComponent implements OnInit {
     return of(true);
   }
 
-  keyPressNumbers(event: any) {
+  public keyPressNumbers(event: any) {
     var charCode = event.which ? event.which : event.keyCode;
 
     if (charCode < 48 || charCode > 57) {
@@ -264,18 +364,18 @@ export class AddStudentComponent implements OnInit {
     }
   }
 
-  goBack() {
+  public goBack() {
     this.router.navigate(['/']);
   }
 
-  password: string = '';
-  hidePassword: boolean = true;
+  private password: string = '';
+  public hidePassword: boolean = true;
 
-  togglePasswordVisibility(): void {
+  public togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword;
   }
 
-  onDelete(_id: any) {
+  public onDelete(_id: any) {
     Swal.fire({
       title: 'Are you sure?',
       text: 'You will not be able to recover this data!',
@@ -299,7 +399,7 @@ export class AddStudentComponent implements OnInit {
     });
   }
 
-  onSignOut() {
+  public onSignOut() {
     this.Authservice.logout();
     this.router.navigate(['/']);
   }
@@ -334,7 +434,7 @@ export class AddStudentComponent implements OnInit {
     });
   }
 
-  openProfileModal() {
+  public openProfileModal() {
     const ref = this.dialogService.open(ProfileComponent, {
       header: 'Your Profile',
       width: '70%',
@@ -397,7 +497,7 @@ export class AddStudentComponent implements OnInit {
 }
 
 
-updateChart(){
+public updateChart(){
   const filteredEmployees = this.filteredEmployeeData.filter((employee: any) => {
     return employee.department === 'Administrator' || employee.department === 'Accounts';
   });
@@ -428,8 +528,8 @@ updateChart(){
         label: 'Salary of an Employee',
         data: accountsSalaries,
         backgroundColor: [
-          'rgba(255, 99, 132, 0.2)', 
           'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 99, 132, 0.2)', 
           'rgba(255, 206, 86, 0.2)'
         ],
         borderColor: [

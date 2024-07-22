@@ -8,8 +8,8 @@ import { DataService } from 'src/app/Service/data.service';
   styleUrls: ['./view-students.component.css']
 })
 export class ViewStudentsComponent implements OnInit {
-  itemId: any;
-  item: any
+  public itemId: any;
+  public item: any
 
   constructor(private service: DataService, private activatedRouter: ActivatedRoute, private router: Router) { }
 
@@ -37,7 +37,7 @@ export class ViewStudentsComponent implements OnInit {
 
 
   }
-  goBack() {
+  protected goBack() {
     this.router.navigate(['/add-student'])
   }
 }

@@ -25,7 +25,7 @@ export class ChangePasswordComponent {
     }
   }
 
-  changePassword() {
+  public changePassword() {
     const oldPassword = this.passwordForm.value.oldPassword;
     const newPassword = this.passwordForm.value.newPassword;
 

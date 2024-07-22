@@ -2,7 +2,6 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Injectable } from '@angular/core';
 import { Observable, finalize } from 'rxjs';
 import { LoaderService } from './loader.service';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +14,7 @@ export class LoaderInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     this.loaderService.showLoader();
-
+    
     return next.handle(req).pipe(
       finalize(() => {
         this.loaderService.hideLoader();

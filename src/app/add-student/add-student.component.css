@@ -75,3 +75,12 @@ margin-left: calc(59vh);
   height: auto ;
 }
 
+.form-group.date-form.col {
+  position: relative;
+}
+::ng-deep.form-group.date-form.col .mat-datepicker-toggle button.mdc-icon-button.mat-mdc-icon-button {
+  position: absolute;
+  right: 10px;
+  top: 65%;
+  transform: translateY(-50%);
+}

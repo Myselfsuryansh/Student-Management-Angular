@@ -14,7 +14,7 @@ export class AuthService {
     private router: Router
   ) {}
 
-  signUp(user: any): Observable<any> {
+  public signUp(user: any): Observable<any> {
     return this.http.post(
       'http://localhost:8080/api/v1/Auth/registerStudent',
       user
