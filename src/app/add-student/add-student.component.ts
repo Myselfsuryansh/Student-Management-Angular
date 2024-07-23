@@ -103,6 +103,13 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
   public darkClass ='.theme-dark';
   public lightClass ='.theme-light';
   private timerValuesSubject = new Subject<number>();
+  public today: Date = new Date();
+  public currentYear: number = this.today.getFullYear();
+  public currentMonth: number = this.today.getMonth();
+  public currentDay: number = this.today.getDate();
+  public dateValue: Object = new Date(new Date().setDate(14));
+  currentpage: number = 1;
+  limits: number = 5;
   public timerValues$: Observable<number> =
     this.timerValuesSubject.asObservable();
   constructor(
@@ -177,6 +184,10 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(() => {
         this.filterBanks();
       });
+
+      this.getAllDepartmentData(this.currentpage, this.limits);
+      this.getAllEmployeeFilters(this.currentpage, this.limits)
+
     
    
   }
@@ -188,6 +199,10 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
     this._onDestroy.next();
     this._onDestroy.complete();
   }
+  private readonly _currentYear = new Date().getFullYear();
+  readonly minDate = new Date(this._currentYear - 0, 0, 1);
+  readonly maxDate = new Date();
+
 
   protected setInitialValue() {
     this.filteredBanks
@@ -318,12 +333,28 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
       if (res && res.getAllStudent) {
         console.log(res.getAllStudent);
         this.filteredEmployeeData = res.getAllStudent;
-        console.log( this.filteredEmployeeData ,'klklklk')
         this.filteredChartEmployeData= res.getAllStudent;
-        console.log(this.filteredChartEmployeData,'opopop');
         this.updateChart()
       }
     });
+  }
+  public department:any=[]
+
+  public getAllDepartmentData(page:number, limit:number){  
+    this.service.getDepartmentData(page, limit).subscribe((data:any)=>{ 
+      this.department = data.department;
+    },
+  error=>{
+    console.error('Error fetching departments', error)
+  })
+
+  }
+  public employeeFilter: any=[]
+
+  public getAllEmployeeFilters(page:number, limit:number){
+    this.service.getEmployeeData(page,limit).subscribe((data:any)=>{
+      this.employeeFilter = data.employeeFilter;
+    })
   }
 
   protected capitalizeFirstLetter(name: string): string {

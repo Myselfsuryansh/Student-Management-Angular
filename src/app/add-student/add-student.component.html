@@ -39,12 +39,6 @@
       </div>
     </div>
   </div>
-
-  <div class="col-2 ml-3 mt-2">
-    <button class="btn btn-primary btn-sm" (click)="goBack()">
-      <i class="fas fa-arrow-left"></i> Home
-    </button>
-  </div>
   <div class="card-body">
     <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
       <div class="row mt-2">
@@ -59,9 +53,12 @@
             required
           >
             <option value="">--Select--</option>
-            <option value="Accounts">Accounts</option>
+            <!-- <option value="Accounts">Accounts</option>
             <option value="Manager">Manager</option>
-            <option value="Administrator">Administrator</option>
+            <option value="Administrator">Administrator</option> -->
+            <option *ngFor="let dept of department" value="dept.name">
+              {{ dept.name }}
+            </option>
           </select>
           <span
             *ngIf="submitted && f.department.errors"
@@ -155,6 +152,10 @@
             class="form-control"
             formControlName="joinDate"
             [ngClass]="{ 'is-invalid': submitted && f.joinDate.errors }"
+            matInput
+            [min]="minDate"
+            [max]="maxDate"
+            [matDatepicker]="picker"
             required
           />
           <mat-datepicker #picker></mat-datepicker>
@@ -272,13 +273,13 @@
       <div class="row mt-2">
         <div class="form-group text-center">
           <button type="submit" class="btn btn-success me-2">Save</button>
-          <button
+          <!-- <button
             type="button"
             class="btn btn-warning me-2"
             (click)="resetBtn()"
           >
             Reset
-          </button>
+          </button> -->
           <button
             type="button"
             class="btn btn-danger me-2"
@@ -309,12 +310,18 @@
             [(ngModel)]="selectSearch"
           >
             <option value="">Please Select</option>
-            <option value="department">Department</option>
+            <option
+              *ngFor="let emplFilter of employeeFilter"
+              value="emplFilter.name"
+            >
+              {{emplFilter.name}}
+            </option>
+            <!-- <option value="department">Department</option>
             <option value="empName">Employee Name</option>
             <option value="mobile">Mobile</option>
             <option value="gender">Gender</option>
             <option value="joinDate">Joining Date</option>
-            <option value="email">Email</option>
+            <option value="email">Email</option> -->
           </select>
         </div>
       </div>

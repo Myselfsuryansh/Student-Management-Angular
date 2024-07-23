@@ -26,6 +26,16 @@ export class DataService {
     return this.http.get('http://localhost:8080/api/v1/student/getAllStudent')
 
   }
+
+
+  getDepartmentData(page:any, limit:any){
+    return this.http.get(`http://localhost:8080/api/v1/student/getAllDepartment?page=${page}&limit=${limit}`)
+  }
+
+
+  getEmployeeData(page:any, limit:any){
+    return this.http.get(`http://localhost:8080/api/v1/student/getAllEmployeeFilter?page=${page}&limit=${limit}`)
+  }
  
   delete(id: any) {
     return this.http.delete(`http://localhost:8080/api/v1/student/deleteStudent/${id}`)
