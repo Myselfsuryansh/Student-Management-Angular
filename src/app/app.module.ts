@@ -32,7 +32,7 @@ import { AppComponent } from './app.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ProfileModule } from './profile/profile.module';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 @NgModule({
   declarations: [
@@ -47,8 +47,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     ProfileComponent,
     ResetPasswordComponent,
     NotFoundComponent,
-    LoaderComponent
- 
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,15 +57,14 @@ import { MatNativeDateModule } from '@angular/material/core';
     ReactiveFormsModule,
     HttpClientModule,
     ToastrModule.forRoot(),
-    MatProgressSpinnerModule ,
+    MatProgressSpinnerModule,
     NgxSpinnerModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
           return localStorage.getItem('token');
         },
-        
-      }
+      },
     }),
     PaginatorModule,
     MatSlideToggleModule,
@@ -80,13 +78,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     NgxMatSelectSearchModule,
     MatDatepickerModule,
     MatNativeDateModule,
-     
-    
-  
-    
-    
   ],
-  providers: [MatDatepickerModule,
+  providers: [
+    MatDatepickerModule,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptors,
@@ -97,10 +91,8 @@ import { MatNativeDateModule } from '@angular/material/core';
       useClass: TokenInterceptor,
       multi: true,
     },
-    DialogService
-    
-    
+    DialogService,
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

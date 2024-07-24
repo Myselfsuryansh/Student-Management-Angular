@@ -261,7 +261,7 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.sortedColumn === column) {
       this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
     } else {
-      this.sortOrder = 'asc';
+      this.sortOrder = 'asc';0
       this.sortedColumn = column;
     }
 
