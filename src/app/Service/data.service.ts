@@ -59,7 +59,7 @@ export class DataService {
   }
 
   resetPassword( newPassword:string, confirmNewPassword:string):Observable<any>{
-    return this.http.post<any>('http://localhost:8080/api/v1/student/resetPassword',{ newPassword, confirmNewPassword})
+    return this.http.post<any>('http://localhost:8080/api/v1/auth/resetPassword',{ newPassword, confirmNewPassword})
   }
 
   clockInData(data:any){
