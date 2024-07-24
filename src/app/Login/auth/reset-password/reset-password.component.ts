@@ -1,8 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/Service/auth.service';
 import { DataService } from 'src/app/Service/data.service';
 
 @Component({
