@@ -13,7 +13,6 @@ export class ProfileComponent {
     const userDataString = localStorage.getItem('userData');
     if (userDataString) {
       const userData = JSON.parse(userDataString);
-     console.log(userData)
      this.data = userData
     } else {
       console.error('No userData found in local storage');

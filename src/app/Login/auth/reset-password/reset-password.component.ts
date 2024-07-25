@@ -22,11 +22,9 @@ export class ResetPasswordComponent {
   const confirmNewPassword = this.changePasswordForm.value.confirmNewPassword;
 
   this.service.resetPassword(newPassword,confirmNewPassword).subscribe((res)=>{
-    console.log(res,'Password Reset');
     this.toastr.success('Password Reset Successfully');
     this.router.navigate(['/'])
   },(error)=>{
-    console.log(error,'Error')
   })
 
   }

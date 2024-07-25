@@ -21,12 +21,10 @@ export class EditStudentsComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRouter.paramMap.subscribe((params: any) => {
       this.itemId = params.get('id');
-      console.log(this.itemId);
       this.getDataForEdit(this.itemId);
 
       this.service.getDataForSpecificID(this.itemId).subscribe((item: any) => {
         this.item = item;
-        console.log(item.studentId)
 
       })
     });
