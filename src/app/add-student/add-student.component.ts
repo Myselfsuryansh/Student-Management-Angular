@@ -325,13 +325,11 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
         this.toastr.error(res.error, 'error');
       }
     });
-    console.log(this.employeeForm.value);
   }
 
   protected getEmployeeData() {
     this.service.getData().subscribe((res: any) => {
       if (res && res.getAllStudent) {
-        console.log(res.getAllStudent);
         this.filteredEmployeeData = res.getAllStudent;
         this.filteredChartEmployeData= res.getAllStudent;
         this.updateChart()
@@ -457,10 +455,10 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ref.onClose.subscribe((passwordChanged: boolean) => {
       if (passwordChanged) {
-        console.log('Password changed successfully');
+        this.toastr.success('Paswword Cahnged Successfully')
         ref.close();
       } else {
-        console.log('Password change failed');
+        this.toastr.error('Error While changing the password')
       }
     });
   }
@@ -480,10 +478,10 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
     const data = { id: this.id };
     this.service.clockInData(data).subscribe(
       (res) => {
-        console.log(res);
+        
       },
       (error) => {
-        console.log(error);
+        
       }
     );
   }
@@ -492,10 +490,10 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
     const data = { id: this.idout };
     this.service.clockOutData(data).subscribe(
       (res) => {
-        console.log(res);
+        
       },
       (error) => {
-        console.log(error);
+        
       }
     );
   }
@@ -535,9 +533,8 @@ public updateChart(){
   const administratorSalaries: any[] = [];
   const accountsSalaries: any[] = [];
 
-  console.log(this.filteredChartEmployeData,'ghghgh')
+  
   const departmentNames = this.filteredEmployeeData.map((employee: any) => employee.department);
-  console.log(departmentNames,'departmentNames')
   filteredEmployees.forEach((employee: any) => {
     if (employee.department == 'Administrator') {
       administratorSalaries.push(employee.salary);
@@ -545,11 +542,6 @@ public updateChart(){
       accountsSalaries.push(employee.salary);
     }
   });
-
-  console.log(administratorSalaries, 'administratorSalaries');
-  console.log(accountsSalaries, 'accountsSalaries');
-
-  console.log(departmentNames, 'departmentNames');
   const ctx = document.getElementById('barChart') as HTMLCanvasElement;
   this.barChart = new Chart(ctx, {
     type: 'bar',

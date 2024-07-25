@@ -16,7 +16,6 @@ export class ViewStudentsComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRouter.paramMap.subscribe((params) => {
       this.itemId = params.get('id'); // Convert the ID to a number (if it's not a string)
-      console.log(this.itemId);
 
       // this.service.getDataForSpecificID(this.itemId).subscribe((item: any) => {
       //   this.item = item;

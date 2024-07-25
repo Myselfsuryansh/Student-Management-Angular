@@ -46,7 +46,6 @@ export class AuthComponent implements OnInit {
   }
 
   public onSubmit() {
-    console.log(this.SignUpForm.value, this.SignUpForm.valid)
     this.submitted = true;
     if (this.SignUpForm.invalid) {
       return;
@@ -67,7 +66,6 @@ export class AuthComponent implements OnInit {
   }
 
   public onLogin() {
-    console.log(this.LoginForm.value, this.LoginForm.valid);
     this.submitted = true;
     if (this.LoginForm.invalid) {
       return;

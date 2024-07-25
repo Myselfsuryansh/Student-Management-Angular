@@ -46,7 +46,6 @@ export class BankDetailsComponent implements OnInit {
     this.service.getSpecificBankDetails().subscribe((bankNames: any[])=>{
       
       this.bankNames = bankNames;
-      console.log(this.bankNames)
     },(error)=>{
       console.error('Error fetching bank names:', error);
     })
@@ -55,7 +54,6 @@ export class BankDetailsComponent implements OnInit {
   public stateDetails(){
     this.service.getStateName().subscribe((state: any[])=>{
       this.stateName = state;
-      console.log(this.stateName)
     },(error)=>{
       console.error('Error fetching bank names:', error);
     })
@@ -64,7 +62,6 @@ export class BankDetailsComponent implements OnInit {
   public districtDetails(){
     this.service.getDistrictName().subscribe((district: any[])=>{
       this.districtName = district;
-      console.log(this.districtName)
     },(error)=>{
       console.error('Error fetching bank names:', error);
     })
@@ -88,16 +85,13 @@ export class BankDetailsComponent implements OnInit {
     let data ={
       ...this.bankDetailsForm.value
     }
-    console.log(this.bankDetailsForm.value);
     this.service.postBankDetails(data).subscribe((res)=>{
-      console.log(res);
       this.submitted=false
       this.bankDetailsForm.reset();
       this.bankDetails()
       this.stateDetails()
       this.districtDetails()
     },(error)=>{
-      console.log(error)
     })
 
 
@@ -126,7 +120,6 @@ export class BankDetailsComponent implements OnInit {
 
 getAllProject(){
   this.service.getAllProject().subscribe((res)=>{
-    console.log(res)
   })
 }
 }
