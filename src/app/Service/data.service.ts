@@ -23,7 +23,7 @@ export class DataService {
   // }
 
   getData() {
-    return this.http.get('http://localhost:8080/api/v1/student/getAllStudent')
+    return this.http.get('https://student-managementsystem-node-4.onrender.com/api/v1/student/getAllStudent')
 
   }
 
