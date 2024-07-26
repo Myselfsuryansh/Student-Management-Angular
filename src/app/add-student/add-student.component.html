@@ -358,7 +358,7 @@
                 (onChange)="onToggleChange(i)"
               ></mat-slide-toggle>
               <button
-                (click)="editStudent(data._id)"
+              [routerLink]="['/edit', data._id]"
                 class="btn btn-primary me-2"
                 [disabled]="toggleStatusArray[i]"
               >

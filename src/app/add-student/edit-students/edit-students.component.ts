@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DataService } from 'src/app/Service/data.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-edit-students',
   templateUrl: './edit-students.component.html',
@@ -58,16 +58,32 @@ export class EditStudentsComponent implements OnInit {
       return;
     }
     if (this.employeeForm.valid) {
-      this.service.updateData(this.itemId, this.employeeForm.value).subscribe((res: any) => {
-        alert('Data updated success');
-        this.router.navigate(['/add'])
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You will not be able to recover this data!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Update it!',
+        cancelButtonText: 'No, keep it',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.service.updateData(this.itemId, this.employeeForm.value).subscribe((res: any) => {
+            if (res) {
+              Swal.fire('Updated!', 'The data has been Updated.', 'success');
+              this.router.navigate(['/add-student'])
+            } else {
+              Swal.fire('Error', 'Unable to Update the data.', 'error');
+            }
+          });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire('Not Cancelled', 'The data is safe :)', 'info');
+        }
+      });
 
-      })
     }
 
   }
   getDataForEdit(_id: number): void {
-    debugger
     this.service.getDataForSpecificID(_id).subscribe((response: any) => {
       if (response.success && response.studentId) {
         const studentData = response.studentId;

@@ -46,7 +46,7 @@ export class DataService {
     return this.http.get(`https://student-managementsystem-node-4.onrender.com/api/v1/student/getStudentBySpecificId/${id}`);
   }
   updateData(id: any, data: any) {
-    return this.http.put(`https://student-managementsystem-node-4.onrender.com/api/v1/student/updateStudent${id}`, data)
+    return this.http.put(`https://student-managementsystem-node-4.onrender.com/api/v1/student/updateStudent/${id}`, data)
   }
 
 

@@ -573,11 +573,6 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
       },
     });
   }
-  public editStudent(id: string) {
-    this.service.getDataForSpecificID(id).subscribe((res: any) => {
-      this.router.navigate(['/edit']);
-    });
-  }
 
   public viewStudent(id: string) {}
 
