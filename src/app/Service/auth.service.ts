@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 @Injectable({
@@ -11,12 +10,11 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private jwtHelper: JwtHelperService,
-    private router: Router
   ) {}
 
   public signUp(user: any): Observable<any> {
     return this.http.post(
-      'http://localhost:8080/api/v1/Auth/registerStudent',
+      'https://student-managementsystem-node-4.onrender.com/api/v1/Auth/registerStudent',
       user
     );
   }

@@ -56,7 +56,7 @@
             <!-- <option value="Accounts">Accounts</option>
             <option value="Manager">Manager</option>
             <option value="Administrator">Administrator</option> -->
-            <option *ngFor="let dept of department" value="dept.name">
+            <option *ngFor="let dept of department" [value]="dept.name">
               {{ dept.name }}
             </option>
           </select>
@@ -358,7 +358,7 @@
                 (onChange)="onToggleChange(i)"
               ></mat-slide-toggle>
               <button
-                [routerLink]="['/edit', data._id]"
+                (click)="editStudent(data._id)"
                 class="btn btn-primary me-2"
                 [disabled]="toggleStatusArray[i]"
               >
