@@ -5,7 +5,7 @@ import {
   OnDestroy,
   OnInit,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -20,14 +20,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { OverlayContainer, ToastrService } from 'ngx-toastr';
 import { Chart, registerables } from 'node_modules/chart.js';
 import { DialogService } from 'primeng/dynamicdialog';
-import {
-  Observable,
-  ReplaySubject,
-  Subject,
-  of,
-  take,
-  takeUntil
-} from 'rxjs';
+import { Observable, ReplaySubject, Subject, of, take, takeUntil } from 'rxjs';
 import Swal from 'sweetalert2';
 import { AuthService } from '../Service/auth.service';
 import { DataService } from '../Service/data.service';
@@ -50,28 +43,26 @@ export interface Bank {
   name: string;
 }
 
-
-
 /** list of banks */
 export const BANKS: Bank[] = [
-  {name: 'Bank A (Switzerland)', id: 'A'},
-  {name: 'Bank B (Switzerland)', id: 'B'},
-  {name: 'Bank C (France)', id: 'C'},
-  {name: 'Bank D (France)', id: 'D'},
-  {name: 'Bank E (France)', id: 'E'},
-  {name: 'Bank F (Italy)', id: 'F'},
-  {name: 'Bank G (Italy)', id: 'G'},
-  {name: 'Bank H (Italy)', id: 'H'},
-  {name: 'Bank I (Italy)', id: 'I'},
-  {name: 'Bank J (Italy)', id: 'J'},
-  {name: 'Bank Kolombia (United States of America)', id: 'K'},
-  {name: 'Bank L (Germany)', id: 'L'},
-  {name: 'Bank M (Germany)', id: 'M'},
-  {name: 'Bank N (Germany)', id: 'N'},
-  {name: 'Bank O (Germany)', id: 'O'},
-  {name: 'Bank P (Germany)', id: 'P'},
-  {name: 'Bank Q (Germany)', id: 'Q'},
-  {name: 'Bank R (Germany)', id: 'R'}
+  { name: 'Bank A (Switzerland)', id: 'A' },
+  { name: 'Bank B (Switzerland)', id: 'B' },
+  { name: 'Bank C (France)', id: 'C' },
+  { name: 'Bank D (France)', id: 'D' },
+  { name: 'Bank E (France)', id: 'E' },
+  { name: 'Bank F (Italy)', id: 'F' },
+  { name: 'Bank G (Italy)', id: 'G' },
+  { name: 'Bank H (Italy)', id: 'H' },
+  { name: 'Bank I (Italy)', id: 'I' },
+  { name: 'Bank J (Italy)', id: 'J' },
+  { name: 'Bank Kolombia (United States of America)', id: 'K' },
+  { name: 'Bank L (Germany)', id: 'L' },
+  { name: 'Bank M (Germany)', id: 'M' },
+  { name: 'Bank N (Germany)', id: 'N' },
+  { name: 'Bank O (Germany)', id: 'O' },
+  { name: 'Bank P (Germany)', id: 'P' },
+  { name: 'Bank Q (Germany)', id: 'Q' },
+  { name: 'Bank R (Germany)', id: 'R' },
 ];
 @Component({
   selector: 'app-add-student',
@@ -79,14 +70,14 @@ export const BANKS: Bank[] = [
   styleUrls: ['./add-student.component.css'],
 })
 export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
-  @HostBinding('class') className='';
+  @HostBinding('class') className = '';
   @ViewChild('profilePopup', { static: true }) profilePopup!: TemplateRef<any>;
   public barChart: Chart;
   public id: any;
   public idout: any;
   public sidebarShow: boolean = false;
   public isDarkMode: boolean = false;
-  public filteredChartEmployeData=[];
+  public filteredChartEmployeData = [];
   public nameSearch: string = '';
   public selectSearch: string = '';
   public employeeForm: FormGroup;
@@ -100,8 +91,8 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
   public clockInOutText: string = 'Clock In';
   public isOnBreak: boolean = false;
   public switchTheme = new FormControl(false);
-  public darkClass ='.theme-dark';
-  public lightClass ='.theme-light';
+  public darkClass = '.theme-dark';
+  public lightClass = '.theme-light';
   private timerValuesSubject = new Subject<number>();
   public today: Date = new Date();
   public currentYear: number = this.today.getFullYear();
@@ -121,10 +112,9 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
     private Authservice: AuthService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private overlay:OverlayContainer
+    private overlay: OverlayContainer
   ) {
     this.filteredEmployeeData = this.employeeData;
-   
   }
 
   profile: any[] = [
@@ -161,6 +151,8 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
       password: ['', Validators.required],
       confirmPass: ['', Validators.required],
       empStatus: ['', Validators.requiredTrue],
+    },{
+      validator: this.mustMatch('password', 'confirmPass'),
     });
 
     this.spinner.show();
@@ -185,24 +177,35 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
         this.filterBanks();
       });
 
-      this.getAllDepartmentData(this.currentpage, this.limits);
-      this.getAllEmployeeFilters(this.currentpage, this.limits)
-
-    
-   
+    this.getAllDepartmentData(this.currentpage, this.limits);
+    this.getAllEmployeeFilters(this.currentpage, this.limits);
   }
   ngAfterViewInit() {
     this.setInitialValue();
   }
 
-  ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
+  private mustMatch(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+
+      if (
+        matchingControl.errors &&
+        !matchingControl.errors.confirmedValidator
+      ) {
+        return;
+      }
+
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ confirmedValidator: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    };
   }
   private readonly _currentYear = new Date().getFullYear();
   readonly minDate = new Date(this._currentYear - 0, 0, 1);
   readonly maxDate = new Date();
-
 
   protected setInitialValue() {
     this.filteredBanks
@@ -213,10 +216,10 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filteredBanks are loaded initially
         // and after the mat-option elements are available
-        this.singleSelect!.compareWith = (a: Bank, b: Bank) => a && b && a.id === b.id;
+        this.singleSelect!.compareWith = (a: Bank, b: Bank) =>
+          a && b && a.id === b.id;
       });
   }
-
 
   protected filterBanks() {
     if (!this.banks) {
@@ -232,10 +235,9 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     // filter the banks
     this.filteredBanks.next(
-      this.banks.filter(bank => bank.name.toLowerCase().indexOf(search) > -1)
+      this.banks.filter((bank) => bank.name.toLowerCase().indexOf(search) > -1)
     );
   }
-
 
   protected toggleDarkTheme(isDarkMode: boolean = this.switchTheme.value) {
     const body = document.body;
@@ -245,7 +247,6 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
       body.classList.remove('dark-theme');
     }
   }
-
 
   public onToggleChange(index: number) {
     this.toggleStatusArray[index] = !this.toggleStatusArray[index];
@@ -331,28 +332,29 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.service.getData().subscribe((res: any) => {
       if (res && res.getAllStudent) {
         this.filteredEmployeeData = res.getAllStudent;
-        this.filteredChartEmployeData= res.getAllStudent;
-        this.updateChart()
+        this.filteredChartEmployeData = res.getAllStudent;
+        this.updateChart();
       }
     });
   }
-  public department:any=[]
+  public department: any = [];
 
-  public getAllDepartmentData(page:number, limit:number){  
-    this.service.getDepartmentData(page, limit).subscribe((data:any)=>{ 
-      this.department = data.department;
-    },
-  error=>{
-    console.error('Error fetching departments', error)
-  })
-
+  public getAllDepartmentData(page: number, limit: number) {
+    this.service.getDepartmentData(page, limit).subscribe(
+      (data: any) => {
+        this.department = data.department;
+      },
+      (error) => {
+        console.error('Error fetching departments', error);
+      }
+    );
   }
-  public employeeFilter: any=[]
+  public employeeFilter: any = [];
 
-  public getAllEmployeeFilters(page:number, limit:number){
-    this.service.getEmployeeData(page,limit).subscribe((data:any)=>{
+  public getAllEmployeeFilters(page: number, limit: number) {
+    this.service.getEmployeeData(page, limit).subscribe((data: any) => {
       this.employeeFilter = data.employeeFilter;
-    })
+    });
   }
 
   protected capitalizeFirstLetter(name: string): string {
@@ -455,10 +457,10 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ref.onClose.subscribe((passwordChanged: boolean) => {
       if (passwordChanged) {
-        this.toastr.success('Paswword Cahnged Successfully')
+        this.toastr.success('Paswword Cahnged Successfully');
         ref.close();
       } else {
-        this.toastr.error('Error While changing the password')
+        this.toastr.error('Error While changing the password');
       }
     });
   }
@@ -477,24 +479,16 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
   public onSubmitClockIn() {
     const data = { id: this.id };
     this.service.clockInData(data).subscribe(
-      (res) => {
-        
-      },
-      (error) => {
-        
-      }
+      (res) => {},
+      (error) => {}
     );
   }
 
   public onSubmitClockout() {
     const data = { id: this.idout };
     this.service.clockOutData(data).subscribe(
-      (res) => {
-        
-      },
-      (error) => {
-        
-      }
+      (res) => {},
+      (error) => {}
     );
   }
 
@@ -514,68 +508,81 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
       .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
 
-//   public toggleDarkMode():void{
-//     document.body.classList.toggle('day');
-//     document.body.classList.toggle('night');
-//   }
+  //   public toggleDarkMode():void{
+  //     document.body.classList.toggle('day');
+  //     document.body.classList.toggle('night');
+  //   }
 
   public toggleSidebar() {
     this.sidebarShow = !this.sidebarShow;
     const card = document.querySelector('.card');
     card.classList.toggle('opened', this.sidebarShow);
-}
+  }
 
-
-public updateChart(){
-  const filteredEmployees = this.filteredEmployeeData.filter((employee: any) => {
-    return employee.department === 'Administrator' || employee.department === 'Accounts';
-  });
-  const administratorSalaries: any[] = [];
-  const accountsSalaries: any[] = [];
-
-  
-  const departmentNames = this.filteredEmployeeData.map((employee: any) => employee.department);
-  filteredEmployees.forEach((employee: any) => {
-    if (employee.department == 'Administrator') {
-      administratorSalaries.push(employee.salary);
-    } else if (employee.department == 'Accounts') {
-      accountsSalaries.push(employee.salary);
-    }
-  });
-  const ctx = document.getElementById('barChart') as HTMLCanvasElement;
-  this.barChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: departmentNames,
-      datasets: [{
-        label: 'Salary of an Employee',
-        data: accountsSalaries,
-        backgroundColor: [
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 99, 132, 0.2)', 
-          'rgba(255, 206, 86, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)', 
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)'
-        ],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
+  public updateChart() {
+    const filteredEmployees = this.filteredEmployeeData.filter(
+      (employee: any) => {
+        return (
+          employee.department === 'Administrator' ||
+          employee.department === 'Accounts'
+        );
       }
-    }
-  });
-  
-}
-public changeDayNight(){
-}
+    );
+    const administratorSalaries: any[] = [];
+    const accountsSalaries: any[] = [];
 
+    const departmentNames = this.filteredEmployeeData.map(
+      (employee: any) => employee.department
+    );
+    filteredEmployees.forEach((employee: any) => {
+      if (employee.department == 'Administrator') {
+        administratorSalaries.push(employee.salary);
+      } else if (employee.department == 'Accounts') {
+        accountsSalaries.push(employee.salary);
+      }
+    });
+    const ctx = document.getElementById('barChart') as HTMLCanvasElement;
+    this.barChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: departmentNames,
+        datasets: [
+          {
+            label: 'Salary of an Employee',
+            data: accountsSalaries,
+            backgroundColor: [
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+            ],
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  }
+  public editStudent(id: string) {
+    this.service.getDataForSpecificID(id).subscribe((res: any) => {
+      this.router.navigate(['/edit']);
+    });
+  }
 
+  public viewStudent(id: string) {}
 
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
 }

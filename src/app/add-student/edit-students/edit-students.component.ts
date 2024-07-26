@@ -23,10 +23,10 @@ export class EditStudentsComponent implements OnInit {
       this.itemId = params.get('id');
       this.getDataForEdit(this.itemId);
 
-      this.service.getDataForSpecificID(this.itemId).subscribe((item: any) => {
-        this.item = item;
+      // this.service.getDataForSpecificID(this.itemId).subscribe((item: any) => {
+      //   this.item = item;
 
-      })
+      // })
     });
 
     this.employeeForm = this.fb.group({
@@ -66,7 +66,8 @@ export class EditStudentsComponent implements OnInit {
     }
 
   }
-  protected getDataForEdit(_id: number): void {
+  getDataForEdit(_id: number): void {
+    debugger
     this.service.getDataForSpecificID(_id).subscribe((response: any) => {
       if (response.success && response.studentId) {
         const studentData = response.studentId;

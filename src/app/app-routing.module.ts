@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: '', component: AuthComponent },
   {path:'resetPassword',component:ResetPasswordComponent},
   { path: 'add-student', component: AddStudentComponent, canActivate: [AuthGuard] },
-  { path: 'edit/:id', component: EditStudentsComponent },
+  { path: 'edit', component: EditStudentsComponent },
   { path: 'view/:id', component: ViewStudentsComponent }
 ];
 

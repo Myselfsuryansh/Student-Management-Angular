@@ -13,7 +13,7 @@ export class DataService {
   // }
 
   postData(data: any) {
-    return this.http.post('http://localhost:8080/api/v1/student/CreatePost', data);
+    return this.http.post('https://student-managementsystem-node-4.onrender.com/api/v1/student/CreatePost', data);
   }
 
 
@@ -29,61 +29,61 @@ export class DataService {
 
 
   getDepartmentData(page:any, limit:any){
-    return this.http.get(`http://localhost:8080/api/v1/student/getAllDepartment?page=${page}&limit=${limit}`)
+    return this.http.get(`https://student-managementsystem-node-4.onrender.com/api/v1/student/getAllDepartment?page=${page}&limit=${limit}`)
   }
 
 
   getEmployeeData(page:any, limit:any){
-    return this.http.get(`http://localhost:8080/api/v1/student/getAllEmployeeFilter?page=${page}&limit=${limit}`)
+    return this.http.get(`https://student-managementsystem-node-4.onrender.com/api/v1/student/getAllEmployeeFilter?page=${page}&limit=${limit}`)
   }
  
   delete(id: any) {
-    return this.http.delete(`http://localhost:8080/api/v1/student/deleteStudent/${id}`)
+    return this.http.delete(`https://student-managementsystem-node-4.onrender.com/api/v1/student/deleteStudent/${id}`)
   }
  
 
   getDataForSpecificID(id: any) {
-    return this.http.get(`http://localhost:8080/api/v1/student/getStudentBySpecificId/${id}`);
+    return this.http.get(`https://student-managementsystem-node-4.onrender.com/api/v1/student/getStudentBySpecificId/${id}`);
   }
   updateData(id: any, data: any) {
-    return this.http.put(`http://localhost:8080/api/v1/student/updateStudent${id}`, data)
+    return this.http.put(`https://student-managementsystem-node-4.onrender.com/api/v1/student/updateStudent${id}`, data)
   }
 
 
   getEmailUserId(email: string): Observable<any> {
-    return this.http.get<any>(`http://localhost:8080/api/v1/student/getUserIdByEmail?email=${email}`);
+    return this.http.get<any>(`https://student-managementsystem-node-4.onrender.com/api/v1/student/getUserIdByEmail?email=${email}`);
   }
 
   changePassword(id: string, oldPassword: string, newPassword: string): Observable<any> {
-    return this.http.post<any>('http://localhost:8080/api/v1/student/changePassword', { id, oldPassword, newPassword });
+    return this.http.post<any>('https://student-managementsystem-node-4.onrender.com/api/v1/student/changePassword', { id, oldPassword, newPassword });
   }
 
   resetPassword( newPassword:string, confirmNewPassword:string):Observable<any>{
-    return this.http.post<any>('http://localhost:8080/api/v1/auth/resetPassword',{ newPassword, confirmNewPassword})
+    return this.http.post<any>('https://student-managementsystem-node-4.onrender.com/api/v1/auth/resetPassword',{ newPassword, confirmNewPassword})
   }
 
   clockInData(data:any){
-    return this.http.post<any>('http://localhost:8080/api/v1/student/clockIn',data);
+    return this.http.post<any>('https://student-managementsystem-node-4.onrender.com/api/v1/student/clockIn',data);
   }
 
   clockOutData(data:any){
-    return this.http.post<any>('http://localhost:8080/api/v1/student/clockOut',data);
+    return this.http.post<any>('https://student-managementsystem-node-4.onrender.com/api/v1/student/clockOut',data);
   }
 
   postBankDetails(data:any){
-    return this.http.post('http://localhost:8080/api/v1/Bank/registerBankDetails',data)
+    return this.http.post('https://student-managementsystem-node-4.onrender.com/api/v1/Bank/registerBankDetails',data)
   }
 
   getSpecificBankDetails(){
-    return this.http.get('http://localhost:8080/api/v1/Bank/getSpecificBankDetails')
+    return this.http.get('https://student-managementsystem-node-4.onrender.com/api/v1/Bank/getSpecificBankDetails')
   }
 
   getStateName(){
-    return this.http.get('http://localhost:8080/api/v1/Bank/getStateName');
+    return this.http.get('https://student-managementsystem-node-4.onrender.com/api/v1/Bank/getStateName');
   }
 
   getDistrictName(){
-    return this.http.get('http://localhost:8080/api/v1/Bank/getDistrictName')
+    return this.http.get('https://student-managementsystem-node-4.onrender.com/api/v1/Bank/getDistrictName')
   }
 
   // getAllProject(){
@@ -91,7 +91,7 @@ export class DataService {
   // }
 
   getAllProject(){
-    return this.http.get('http://localhost:8080/api/v1/Jira/getJiraDetails')
+    return this.http.get('https://student-managementsystem-node-4.onrender.com/api/v1/Jira/getJiraDetails')
   }
 
 }
