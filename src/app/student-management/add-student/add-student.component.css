@@ -1,0 +1,86 @@
+body {
+    background-color: white;
+    color: black;
+  }
+  
+  body.day {
+    background-color: white;
+    color: black;
+  }
+  
+  body.night {
+    background-color: black;
+    color: white;
+  }
+
+  * {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.sidebar-opener {
+  cursor: pointer;
+}
+
+.sidebar-slider {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #FF4455;
+  transform: translateX(-100%);
+  transition: ease-in-out 300ms transform;
+  width: 300px;
+}
+
+.sidebar-slider.sidebar-slide-in {
+  transform: translateX(0%);
+  transition: ease-in-out 600ms transform;
+}
+
+.sidebar-close {
+  position: fixed;
+  top: 0;
+  right: 0;
+  color: white;
+  cursor: pointer;
+  padding: 16px;
+}
+
+.sidebar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  color: white;
+  font-size: 16px;
+  padding: 16px;
+  height: 100%;
+}
+
+.card  {
+  position: relative;
+  transition: ease-in-out 600ms margin-left; 
+}
+
+
+
+
+.card.opened {
+margin-left: calc(59vh); 
+}
+#barChart {
+  width: 100% !important;
+  height: auto ;
+}
+
+.form-group.date-form.col {
+  position: relative;
+}
+::ng-deep.form-group.date-form.col .mat-datepicker-toggle button.mdc-icon-button.mat-mdc-icon-button {
+  position: absolute;
+  right: 10px;
+  top: 65%;
+  transform: translateY(-50%);
+}

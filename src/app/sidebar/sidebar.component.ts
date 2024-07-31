@@ -1,15 +1,23 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../Service/auth.service';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent {
-//   public sidebarShow: boolean = false;
-//   public toggleSidebar() {
-//     this.sidebarShow = !this.sidebarShow;
-//     const card = document.querySelector('.card');
-//     card.classList.toggle('opened', this.sidebarShow);
-// }
+export class SidebarComponent implements OnInit {
+  constructor( private Authservice: AuthService,private router: Router){
+
+  }
+
+  ngOnInit(): void {
+
+  }
+  public onSignOut() {
+    this.Authservice.logout();
+    this.router.navigate(['/']);
+  }
+
+
 }

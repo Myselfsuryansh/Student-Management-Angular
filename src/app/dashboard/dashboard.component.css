@@ -1,0 +1,54 @@
+.card {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #f7f7f7;
+}
+.card:hover {
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+.card-body {
+  padding: 20px;
+}
+.card-icon {
+  font-size: 24px;
+  margin-right: 10px;
+  color: #337ab7;
+}
+
+.card-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #337ab7;
+}
+
+.card-text {
+  font-size: 16px;
+  color: #666;
+}
+
+.select-field {
+  width: 100px; /* Make the dropdown shorter */
+  border: 1px solid #ccc; /* Add outline border */
+  border-radius: 4px; /* Add rounded corners */
+  padding: 4px; /* Add some padding */
+  margin-top: -34px;
+}
+
+.select-field .mat-select {
+  padding: 4px; /* Add some padding to the select element */
+  font-size: 14px; /* Make the font size smaller */
+}
+
+.select-field .mat-select-arrow {
+  top: 10px; /* Adjust the position of the arrow */
+}
+
+::ng-deep.mat-option {
+  font-size: small;
+}
+.option-small {
+  font-size: small;
+}
