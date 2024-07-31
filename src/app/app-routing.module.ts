@@ -1,18 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddStudentComponent } from './add-student/add-student.component';
-import { EditStudentsComponent } from './add-student/edit-students/edit-students.component';
-import { ViewStudentsComponent } from './add-student/view-students/view-students.component';
 import { AuthComponent } from './Login/auth/auth.component';
-import { AuthGuard } from './Service/auth.guard';
 import { ResetPasswordComponent } from './Login/auth/reset-password/reset-password.component';
-
+import { SidebarComponent } from './sidebar/sidebar.component';
 const routes: Routes = [
   { path: '', component: AuthComponent },
-  {path:'resetPassword',component:ResetPasswordComponent},
-  { path: 'add-student', component: AddStudentComponent, canActivate: [AuthGuard] },
-  { path: 'edit/:id', component: EditStudentsComponent },
-  { path: 'view/:id', component: ViewStudentsComponent }
+  {
+    path: 'header',
+    component: SidebarComponent,
+    children: [
+      { path: '', component: SidebarComponent }, 
+      { path: 'resetPassword', component: ResetPasswordComponent },
+      { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
+      { path: 'student', loadChildren: () => import('./student-management/student-management.module').then(m => m.StudentManagementModule) }
+    ]
+  },
+ 
 ];
 
 @NgModule({
