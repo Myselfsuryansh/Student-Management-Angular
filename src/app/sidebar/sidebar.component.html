@@ -1,20 +1,59 @@
-<!-- <div class="sidebar-opener"  (click)="toggleSidebar()">
-    &#9776;
-  </div>
-  <div class="sidebar-slider" [class.sidebar-slide-in]="sidebarShow">
-    <div
-        class="sidebar-close"
-        (click)="toggleSidebar()"
+<div
+  type="button"
+  data-bs-toggle="offcanvas"
+  data-bs-target="#offcanvasWithBothOptions"
+  aria-controls="offcanvasWithBothOptions"
+>
+  <!-- <img src="../../assets/Header.png" alt="" width="70" /> -->
+  <i class="fa fa-bars" style="font-size:36px"></i>
+</div>
+
+<div
+  class="offcanvas offcanvas-start"
+  data-bs-scroll="true"
+  tabindex="-1"
+  id="offcanvasWithBothOptions"
+  aria-labelledby="offcanvasWithBothOptionsLabel"
+>
+  <div class="offcanvas-header">
+    <h2
+      class="offcanvas-title"
+      style="margin-left: 9px"
+      id="offcanvasWithBothOptionsLabel"
     >
-        X
-    </div>
-    <div class="sidebar-content">
-        <h2>Sidebar</h2>
-        <div style="cursor: pointer;">Add Students</div>
-        <div style="cursor: pointer;">Bank Details</div>
-        <div>Services</div>
-        <div>Prices</div>
-        <div>Downloads</div>
-        <div>Contact Us</div>
-    </div>
-  </div> -->
+    <img src="../../assets/Header.png" alt="" width="170" />
+    </h2>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="offcanvas-body">
+    <h2 [routerLink]="['/header/dashboard']" style="cursor: pointer">
+      <i class="fas fa-dashboard" style='font-size:25px;color:grey'></i>Dashboard
+    </h2>
+
+    <h2 [routerLink]="['/header/student/add-student']" style="cursor: pointer">
+      <i class="fa fa-drivers-license" style='font-size:25px;color:grey'></i>Student Registration
+    </h2>
+
+    <h2 style="cursor: pointer"><i class="fa-regular fa-envelope" style='font-size:25px;color:grey'></i>Inbox</h2>
+
+    <h2 style="cursor: pointer"><i class="fa fa-bank" style='font-size:25px;color:grey'></i>Bank Details</h2>
+
+    <h2 style="cursor: pointer"><i class="fa fa-file" style='font-size:25px;color:grey'></i>My Documents</h2>
+
+    <h2 style="cursor: pointer"><i class="far fa-hdd" style='font-size:25px;color:grey'></i>Help Desk</h2>
+
+    <h2 routerLink="dashboard" style="cursor: pointer; margin-top: 20vh;">
+      <i class='fas fa-address-card' style='font-size:25px;color:grey'></i>My Space
+    </h2>
+
+    <h2 style="cursor: pointer" (click)="onSignOut()"><i class="fa fa-sign-out" style='font-size:25px;color:grey'></i>Sign Out</h2>
+  </div>
+</div>
+
+
+<router-outlet></router-outlet>

@@ -22,8 +22,8 @@ export class DataService {
 
   // }
 
-  getData() {
-    return this.http.get('https://student-managementsystem-node-4.onrender.com/api/v1/student/getAllStudent')
+  getData(page:any, limit:any) {
+    return this.http.get(`https://student-managementsystem-node-4.onrender.com/api/v1/student/getAllStudent?page=${page}&limit=${limit}`)
 
   }
 

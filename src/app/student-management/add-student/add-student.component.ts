@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   HostBinding,
   OnDestroy,
@@ -17,16 +16,15 @@ import {
 import { MatSelect } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { OverlayContainer, ToastrService } from 'ngx-toastr';
 import { Chart, registerables } from 'node_modules/chart.js';
 import { DialogService } from 'primeng/dynamicdialog';
-import { Observable, ReplaySubject, Subject, of, take, takeUntil } from 'rxjs';
+import { Observable, ReplaySubject, Subject, of, takeUntil } from 'rxjs';
 import Swal from 'sweetalert2';
-import { AuthService } from '../Service/auth.service';
-import { DataService } from '../Service/data.service';
-import { LoaderService } from '../Service/loader.service';
+import { AuthService } from '../../Service/auth.service';
+import { DataService } from '../../Service/data.service';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ToastrService } from 'ngx-toastr';
 Chart.register(...registerables);
 function emailValidator(
   control: AbstractControl
@@ -69,7 +67,7 @@ export const BANKS: Bank[] = [
   templateUrl: './add-student.component.html',
   styleUrls: ['./add-student.component.css'],
 })
-export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
+export class AddStudentComponent implements OnInit, OnDestroy {
   @HostBinding('class') className = '';
   @ViewChild('profilePopup', { static: true }) profilePopup!: TemplateRef<any>;
   public barChart: Chart;
@@ -99,12 +97,11 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
   public currentMonth: number = this.today.getMonth();
   public currentDay: number = this.today.getDate();
   public dateValue: Object = new Date(new Date().setDate(14));
-  currentpage: number = 1;
-  limits: number = 5;
+  public currentpage: number = 1;
+  public limits: number = 5;
   public timerValues$: Observable<number> =
     this.timerValuesSubject.asObservable();
   constructor(
-    private loader: LoaderService,
     private fb: FormBuilder,
     private dialogService: DialogService,
     private router: Router,
@@ -112,9 +109,8 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
     private Authservice: AuthService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private overlay: OverlayContainer
   ) {
-    this.filteredEmployeeData = this.employeeData;
+    this.filteredData = this.employeeData;
   }
 
   profile: any[] = [
@@ -159,7 +155,7 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       this.spinner.hide();
     }, 500);
-    this.getEmployeeData();
+    this.getEmployeeData(this.currentPage, this.limits);
 
     this.switchTheme.valueChanges.subscribe((isDarkMode: boolean) => {
       this.toggleDarkTheme(isDarkMode);
@@ -180,9 +176,7 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getAllDepartmentData(this.currentpage, this.limits);
     this.getAllEmployeeFilters(this.currentpage, this.limits);
   }
-  ngAfterViewInit() {
-    this.setInitialValue();
-  }
+
 
   private mustMatch(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup) => {
@@ -207,25 +201,11 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly minDate = new Date(this._currentYear - 0, 0, 1);
   readonly maxDate = new Date();
 
-  protected setInitialValue() {
-    this.filteredBanks
-      .pipe(take(1), takeUntil(this._onDestroy))
-      .subscribe(() => {
-        // setting the compareWith property to a comparison function
-        // triggers initializing the selection according to the initial value of
-        // the form control (i.e. _initializeSelection())
-        // this needs to be done after the filteredBanks are loaded initially
-        // and after the mat-option elements are available
-        this.singleSelect!.compareWith = (a: Bank, b: Bank) =>
-          a && b && a.id === b.id;
-      });
-  }
-
+ 
   protected filterBanks() {
     if (!this.banks) {
       return;
     }
-    // get the search keyword
     let search = this.bankFilterCtrl.value;
     if (!search) {
       this.filteredBanks.next(this.banks.slice());
@@ -233,7 +213,6 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       search = search.toLowerCase();
     }
-    // filter the banks
     this.filteredBanks.next(
       this.banks.filter((bank) => bank.name.toLowerCase().indexOf(search) > -1)
     );
@@ -280,29 +259,21 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  public filteredEmployeeData!: any[];
-  private searchTerm: string = '';
-  applyFilter() {
-    this.filteredEmployeeData = this.employeeData.filter((data: any) =>
-      data.empName.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
-  }
+  public filteredData!: any[];
+  // private searchTerm: string = '';
+  // applyFilter() {
+  //   this.filteredData = this.employeeData.filter((data: any) =>
+  //     data.empName.toLowerCase().includes(this.searchTerm.toLowerCase())
+  //   );
+  // }
+  public currentPage = 1;
   public onPageChange(event: any): void {
     this.currentPage = event.page + 1;
-  }
-
-  public itemsPerPage = 5;
-  public currentPage = 1;
-
-  public pagedEmployeeData(): any[] {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    return this.filteredEmployeeData.slice(startIndex, endIndex);
+    this.getEmployeeData(this.currentPage, this.limits);
   }
   get f() {
     return this.employeeForm.controls;
   }
-
   onSubmit() {
     if (this.employeeForm.value.empStatus == '') {
       this.toastr.error('CheckBox is not checked');
@@ -320,23 +291,23 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
       if (res) {
         this.toastr.success('Data Added Successfully');
         this.submitted = false;
-        this.getEmployeeData();
+        this.getEmployeeData(this.currentPage, this.limits);
         this.employeeForm.reset();
       } else {
         this.toastr.error(res.error, 'error');
       }
     });
   }
-
-  protected getEmployeeData() {
-    this.service.getData().subscribe((res: any) => {
-      if (res && res.getAllStudent) {
-        this.filteredEmployeeData = res.getAllStudent;
-        this.filteredChartEmployeData = res.getAllStudent;
-        this.updateChart();
-      }
-    });
-  }
+public totalRecords: any
+ public getEmployeeData(page: number, limit: number) {
+  this.service.getData(page, limit).subscribe((res: any) => {
+    if (res && res.data) {
+      this.filteredData = res.data;
+      this.totalRecords = res.Records
+      this.updateChart();
+    }
+  });
+}
   public department: any = [];
 
   public getAllDepartmentData(page: number, limit: number) {
@@ -419,7 +390,7 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
         this.service.delete(_id).subscribe((res: any) => {
           if (res) {
             Swal.fire('Deleted!', 'The data has been deleted.', 'success');
-            this.getEmployeeData();
+            this.getEmployeeData(this.currentPage, this.limits);
           } else {
             Swal.fire('Error', 'Unable to delete the data.', 'error');
           }
@@ -520,7 +491,7 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public updateChart() {
-    const filteredEmployees = this.filteredEmployeeData.filter(
+    const filteredEmployees = this.filteredData.filter(
       (employee: any) => {
         return (
           employee.department === 'Administrator' ||
@@ -531,7 +502,7 @@ export class AddStudentComponent implements OnInit, AfterViewInit, OnDestroy {
     const administratorSalaries: any[] = [];
     const accountsSalaries: any[] = [];
 
-    const departmentNames = this.filteredEmployeeData.map(
+    const departmentNames = this.filteredData.map(
       (employee: any) => employee.department
     );
     filteredEmployees.forEach((employee: any) => {

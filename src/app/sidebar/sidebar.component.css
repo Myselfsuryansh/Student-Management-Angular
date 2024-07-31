@@ -1,48 +1,72 @@
 .sidebar-opener {
-    cursor: pointer;
-  }
-  
-  .sidebar-slider {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    background-color: #FF4455;
-    transform: translateX(-100%);
-    transition: ease-in-out 300ms transform;
-    width: 300px;
-  }
-  
-  .sidebar-slider.sidebar-slide-in {
-    transform: translateX(0%);
-    transition: ease-in-out 600ms transform;
-  }
-  
-  .sidebar-close {
-    position: fixed;
-    top: 0;
-    right: 0;
-    color: white;
-    cursor: pointer;
-    padding: 16px;
-  }
-  
-  .sidebar-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    flex-direction: column;
-    color: white;
-    font-size: 16px;
-    padding: 16px;
-    height: 100%;
-  }
-  
-  .card  {
+  cursor: pointer;
+}
+
+.sidebar-slider {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #ff4455;
+  transform: translateX(-100%);
+  transition: ease-in-out 300ms transform;
+  width: 300px;
+}
+
+.sidebar-slider.sidebar-slide-in {
+  transform: translateX(0%);
+  transition: ease-in-out 600ms transform;
+}
+
+.sidebar-close {
+  position: fixed;
+  top: 0;
+  right: 0;
+  color: white;
+  cursor: pointer;
+  padding: 16px;
+}
+
+.sidebar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  color: white;
+  font-size: 16px;
+  padding: 16px;
+  height: 100%;
+}
+
+.card {
   transition: ease-in-out 600ms margin-left; /* Add transition for smooth movement */
-  }
-  
-  
-  .card.opened {
+}
+
+.card.opened {
   margin-left: calc(51vh); /* Adjusted margin for open state */
-  }
+}
+
+.offcanvas-body {
+  padding: 20px;
+}
+
+.nav-link {
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #333;
+  cursor: pointer; /* Add pointer cursor */
+}
+
+.nav-link:hover {
+  background-color: #f0f0f0;
+  color: #337ab7;
+}
+
+.nav-link i {
+  margin-right: 10px; /* Add space between icon and text */
+}
+
+.nav-link span {
+  vertical-align: middle; /* Align text vertically with icon */
+}

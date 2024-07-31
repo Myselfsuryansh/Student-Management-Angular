@@ -148,7 +148,6 @@
           <label>Date of Join</label>
           <input
             matInput
-            [matDatepicker]="picker"
             class="form-control"
             formControlName="joinDate"
             [ngClass]="{ 'is-invalid': submitted && f.joinDate.errors }"
@@ -341,7 +340,7 @@
         <tbody>
           <tr
             *ngFor="
-              let data of pagedEmployeeData() | app : nameSearch : selectSearch;
+              let data of filteredData;
               let i = index
             "
           >
@@ -383,16 +382,16 @@
         </tbody>
       </table>
       <p-paginator
-        [rows]="itemsPerPage"
-        [totalRecords]="filteredEmployeeData.length"
+        [rows]="limits"
+        [totalRecords]="totalRecords"
         (onPageChange)="onPageChange($event)"
       ></p-paginator>
-      <div class="row justify-content-center">
+      <!-- <div class="row justify-content-center">
         <div class="col-lg-12">
           <h2 class="row justify-content-center">Bar Chart</h2>
           <canvas id="barChart"></canvas>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

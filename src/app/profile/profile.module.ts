@@ -9,7 +9,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { SidebarComponent } from '../sidebar/sidebar.component';
 import { BankDetailsComponent } from './bank-details/bank-details.component';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile/profile.component';
@@ -17,7 +16,6 @@ import { ProfileComponent } from './profile/profile.component';
   declarations: [
     ProfileComponent,
     BankDetailsComponent,
-    SidebarComponent
     
   ],
   imports: [

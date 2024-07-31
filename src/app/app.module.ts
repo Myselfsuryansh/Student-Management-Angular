@@ -22,11 +22,6 @@ import { AppPipe } from './Pipe/app.pipe';
 import { LoaderInterceptors } from './Service/Loader/loader.interceptor';
 import { LoaderComponent } from './Service/Loader/loader/loader.component';
 import { TokenInterceptor } from './Service/Token/token.interceptor';
-import { AddStudentComponent } from './add-student/add-student.component';
-import { ChangePasswordComponent } from './add-student/change-password/change-password.component';
-import { EditStudentsComponent } from './add-student/edit-students/edit-students.component';
-import { ProfileComponent } from './add-student/profile/profile.component';
-import { ViewStudentsComponent } from './add-student/view-students/view-students.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -34,20 +29,18 @@ import { ProfileModule } from './profile/profile.module';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { StudentManagementModule } from './student-management/student-management.module';
 @NgModule({
   declarations: [
     AppComponent,
-    AddStudentComponent,
-    EditStudentsComponent,
-    ViewStudentsComponent,
     AuthComponent,
     AppPipe,
-    ChangePasswordComponent,
     SignupComponent,
-    ProfileComponent,
     ResetPasswordComponent,
     NotFoundComponent,
     LoaderComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +49,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    StudentManagementModule,
     ToastrModule.forRoot(),
     MatProgressSpinnerModule,
     NgxSpinnerModule.forRoot(),

@@ -76,7 +76,7 @@ export class AuthComponent implements OnInit {
     this.service.LoginIn(data).subscribe((res: any) => {
       if (res) {
         this.toastr.success('Login  Successfully');
-        this.router.navigate(['add-student']);
+        this.router.navigate(['header/dashboard']);
         localStorage.setItem('token', res.token);
         localStorage.setItem('userData', JSON.stringify(res.user));
         this.service.login();
